@@ -18,6 +18,7 @@ const Register = () => {
         const name = e.target.name.value;
         const email = e.target.email.value;
         const password = e.target.password.value;
+        const role = e.target.password.value;
         const photo = e.target.photo;
         const file = photo.files[0];
         
@@ -30,6 +31,13 @@ const Register = () => {
             });
 
         const mainPhotoUrl = res.data.data.display_url;
+
+        const userData = {
+            name,
+            email,
+            password,
+            mainPhotoUrl
+        }
 
         const hasLowercase = /[a-z]/;
         const hasUppercase = /[A-Z]/;
@@ -49,6 +57,11 @@ const Register = () => {
                 navigate("/");
                 setError("");
                 toast("Register succesfully complete.")
+
+                axios.post("http://localhost:5000/users", userData)
+                .then(res => console.log(res))
+                .catch(err => console.log(err))
+
             })
             .catch(err => {
                 setError(err?.message);
