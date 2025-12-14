@@ -21,9 +21,9 @@ const Register = () => {
         const role = e.target.password.value;
         const photo = e.target.photo;
         const file = photo.files[0];
-        
 
-        const res = await axios.post(`https://api.imgbb.com/1/upload?key=483144411544367618f3fe1757ac61d3`, {image: file},
+
+        const res = await axios.post(`https://api.imgbb.com/1/upload?key=483144411544367618f3fe1757ac61d3`, { image: file },
             {
                 headers: {
                     "Content-Type": "multipart/form-data"
@@ -59,8 +59,8 @@ const Register = () => {
                 toast("Register succesfully complete.")
 
                 axios.post("http://localhost:5000/users", userData)
-                .then(res => console.log(res))
-                .catch(err => console.log(err))
+                    .then(res => console.log(res))
+                    .catch(err => console.log(err))
 
             })
             .catch(err => {
