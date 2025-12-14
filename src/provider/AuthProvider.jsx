@@ -1,14 +1,13 @@
 import React, { createContext, useEffect, useState } from 'react';
 import { auth } from '../firebase/firebase.config';
 import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from 'firebase/auth';
-import axios from 'axios';
 
 export const AuthContext = createContext();
 const googleProvider = new GoogleAuthProvider;
 const AuthProvider = ({children}) => {
     const [role, setRole] = useState("");
-    console.log(role);
     const [ user, setUser ] = useState(null);
+    console.log(user);
     const [ loading, setLoading ] = useState(true);
     const createUser = (email, password) => {
         setLoading(true);

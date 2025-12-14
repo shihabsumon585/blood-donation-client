@@ -40,7 +40,10 @@ const Navbar = () => {
                     </ul>
                 </div>
                 <div className="navbar-end">
-                    <div>
+                    <div className='w-11 border-2 border-green-600 rounded-full mr-4 '>
+                        <img src={user?.photoURL} alt="" className='w-10 rounded-full' title={user?.displayName}/>
+                    </div>
+                    <div className='mr-4'>
                         <Link to={"/dashbord"} className="btn btn-outline">Dashabord</Link>
                     </div>
                     {

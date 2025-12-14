@@ -96,8 +96,8 @@ const Register = () => {
                     {/* Name */}
                     <label className="label">Your Name</label>
                     <input name='name' type="text" className="input" placeholder="Enter your name" />
-                    {/* Photo URL */}
-                    <label className="label">Photo URL</label>
+                    {/* Photo */}
+                    <label className="label">Upoload Your Image</label>
                     <input name='photo' type="file" className="input" />
                     {/* Select a the role */}
                     <label className="label">Role</label>
