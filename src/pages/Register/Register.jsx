@@ -18,7 +18,7 @@ const Register = () => {
         const name = e.target.name.value;
         const email = e.target.email.value;
         const password = e.target.password.value;
-        const role = e.target.password.value;
+        const role = e.target.role.value;
         const photo = e.target.photo;
         const file = photo.files[0];
 
@@ -36,7 +36,8 @@ const Register = () => {
             name,
             email,
             password,
-            mainPhotoUrl
+            mainPhotoUrl,
+            role
         }
 
         const hasLowercase = /[a-z]/;
@@ -98,6 +99,13 @@ const Register = () => {
                     {/* Photo URL */}
                     <label className="label">Photo URL</label>
                     <input name='photo' type="file" className="input" />
+                    {/* Select a the role */}
+                    <label className="label">Role</label>
+                    <select name='role' defaultValue="Choose the role" className="select">
+                        <option disabled={true}>Choose the role</option>
+                        <option value={"manager"}>Manager</option>
+                        <option value={"buyer"}>buyer</option>
+                    </select>
                     {/* password */}
                     <label className="label">Password</label>
                     <div className='relative'>
