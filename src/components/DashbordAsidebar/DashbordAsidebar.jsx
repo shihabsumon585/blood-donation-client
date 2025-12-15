@@ -1,11 +1,12 @@
 import { NavLink } from "react-router-dom";
-import { LayoutDashboard, Users, FileText, Settings, LogOut, Home } from "lucide-react";
+import { LayoutDashboard, Users, FileText, Settings, LogOut, Home, Plus } from "lucide-react";
 import { Link } from "react-router";
 
 export default function DashbordAsidebar() {
   const menuItems = [
-    { name: "Dashboard", path: "/admin/dashboard", icon: LayoutDashboard },
+    { name: "Dashboard", path: "/dashbord", icon: LayoutDashboard },
     { name: "Users", path: "/admin/users", icon: Users },
+    { name: "Add-Product", path: "/dashbord/add-product", icon: Plus },
     { name: "Reports", path: "/admin/reports", icon: FileText },
     { name: "Settings", path: "/admin/settings", icon: Settings },
   ];

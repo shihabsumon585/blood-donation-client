@@ -4,6 +4,8 @@ import Home from "../pages/Home/Home.jsx"
 import Login from "../pages/Login/Login.jsx"; 
 import Register from "../pages/Register/Register.jsx"; 
 import DashabordLayout from "../layouts/DashabordLayout.jsx";
+import AddProduct from "../pages/AddProduct/AddProduct.jsx";
+
 
 const router = createBrowserRouter([
     {
@@ -31,6 +33,10 @@ const router = createBrowserRouter([
             {
                 index: true,
                 element: <div>Dashborad home page</div>
+            },
+            {
+                path: "add-product",
+                element: <AddProduct></AddProduct>
             }
         ]
     }
