@@ -1,12 +1,19 @@
 import { NavLink } from "react-router-dom";
-import { LayoutDashboard, Users, FileText, Settings, LogOut, Home, Plus } from "lucide-react";
+import { LayoutDashboard, Users, FileText, Settings, LogOut, Home, Plus, Package } from "lucide-react";
 import { Link } from "react-router";
+import { useContext } from "react";
+import { AuthContext } from "../../provider/AuthProvider";
 
 export default function DashbordAsidebar() {
+
+  const { role } = useContext(AuthContext);
+  console.log(role);
+
   const menuItems = [
     { name: "Dashboard", path: "/dashbord", icon: LayoutDashboard },
     { name: "Users", path: "/admin/users", icon: Users },
     { name: "Add-Product", path: "/dashbord/add-product", icon: Plus },
+    { name: "Manage Product", path: "/dashbord/manage-product", icon: Package },
     { name: "Reports", path: "/admin/reports", icon: FileText },
     { name: "Settings", path: "/admin/settings", icon: Settings },
   ];
@@ -15,7 +22,7 @@ export default function DashbordAsidebar() {
     <aside className="h-screen w-64 bg-slate-900 text-white fixed left-0 top-0">
       {/* Logo */}
       <div className="h-16 flex items-center justify-center border-b border-slate-700">
-        <h1 className="text-xl font-bold tracking-wide">Admin Panel</h1>
+        <h1 className="text-xl font-bold tracking-wide">{role == "admin" ? "Admin" : role == "volunteer" ? "Volunteer" : "Donar" } Panel</h1>
       </div>
 
       {/* Menu */}
@@ -25,10 +32,9 @@ export default function DashbordAsidebar() {
             key={item.name}
             to={item.path}
             className={({ isActive }) =>
-              `flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
-                isActive
-                  ? "bg-blue-600 text-white"
-                  : "text-slate-300 hover:bg-slate-800 hover:text-white"
+              `flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${isActive
+                ? "bg-blue-600 text-white"
+                : "text-slate-300 hover:bg-slate-800 hover:text-white"
               }`
             }
           >
@@ -41,7 +47,7 @@ export default function DashbordAsidebar() {
       {/* Footer */}
       <div className="absolute bottom-6 left-0 w-full px-4">
         <Link to={"/"} className="flex w-full items-center gap-3 px-4 py-3 rounded-xl text-slate-300 hover:bg-green-600 hover:text-white transition-all">
-            <Home size={20} />
+          <Home size={20} />
           <span className="text-sm font-medium">Back to Home</span>
         </Link>
         <button className="flex w-full items-center gap-3 px-4 py-3 rounded-xl text-slate-300 hover:bg-red-600 hover:text-white transition-all">

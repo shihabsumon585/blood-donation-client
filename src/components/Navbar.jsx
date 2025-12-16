@@ -9,7 +9,7 @@ const Navbar = () => {
     const links = <>
         <li><NavLink>Item 1</NavLink></li>
         <li><NavLink>Item 1</NavLink></li>
-        { user && <>
+        {user && <>
             <li><NavLink>Item 1</NavLink></li>
         </>}
     </>
@@ -40,15 +40,17 @@ const Navbar = () => {
                     </ul>
                 </div>
                 <div className="navbar-end">
-                    <div className='w-11 border-2 border-green-600 rounded-full mr-4 '>
-                        <img src={user?.photoURL} alt="" className='w-10 rounded-full' title={user?.displayName}/>
-                    </div>
+                    {
+                        user && <div className='w-11 border-2 border-green-600 rounded-full mr-4 '>
+                            <img src={user?.photoURL} alt="" className='w-10 rounded-full' title={user?.displayName} />
+                        </div>
+                    }
                     <div className='mr-4'>
                         <Link to={"/dashbord"} className="btn btn-outline">Dashabord</Link>
                     </div>
                     {
                         user?.email ? <button onClick={handleLogout} className="btn btn-primary">Logout</button>
-                        : <Link to={"/login"} className="btn btn-primary">Login</Link>
+                            : <Link to={"/login"} className="btn btn-primary">Login</Link>
                     }
                 </div>
             </div>

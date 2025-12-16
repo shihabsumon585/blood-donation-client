@@ -1,7 +1,9 @@
 import axios from 'axios';
-import React from 'react';
+import React, { useContext } from 'react';
+import { AuthContext } from '../../provider/AuthProvider';
 
 const AddProduct = () => {
+    const { user } = useContext(AuthContext);
 
     const handleSubmit = async e => {
         e.preventDefault();
@@ -38,7 +40,8 @@ const AddProduct = () => {
             minOrderQty: parseInt(minOrderQty),
             paymentOption,
             showOnHome,
-            photo: mainPhotoUrl
+            photo: mainPhotoUrl,
+            managerEmail: user?.email
         };
 
         axios.post("http://localhost:5000/products", productData)

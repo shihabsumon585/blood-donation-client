@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 import toast, { Toaster } from 'react-hot-toast';
 import { FaEye } from 'react-icons/fa';
@@ -8,17 +8,42 @@ import axios from 'axios';
 
 
 const Register = () => {
-    const { createUser, setUser, updateUser, signInWithGoogle } = useContext(AuthContext);
+    const { createUser, setUser, updateUser } = useContext(AuthContext);
     const [error, setError] = useState("");
     const [show, setShow] = useState(true);
     const navigate = useNavigate();
+    const [districts, setDistricts] = useState([]);
+    const [upazilas, setUpazilas] = useState([]);
+    // const [district, setDistrict] = useState("");
+    // const [upazila, setUpazila] = useState("");
+
+    useEffect(() => {
+        axios.get("/districts.json")
+            .then(res => {
+                setDistricts(res.data)
+            })
+            .catch(err => {
+                console.log(err);
+            })
+
+        axios.get("/upazilas.json")
+            .then(res => {
+                setUpazilas(res.data)
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    }, [])
 
     const handleCreateUser = async (e) => {
         e.preventDefault();
         const name = e.target.name.value;
         const email = e.target.email.value;
         const password = e.target.password.value;
-        const role = e.target.role.value;
+        const confirm_password = e.target.confirm_password.value;
+        const blood_group = e.target.blood_group.value;
+        const district = e.target.district.value;
+        const upazila = e.target.upazila.value;
         const photo = e.target.photo;
         const file = photo.files[0];
 
@@ -37,8 +62,12 @@ const Register = () => {
             email,
             password,
             mainPhotoUrl,
-            role
+            blood_group,
+            upazila,
+            district
+
         }
+
 
         const hasLowercase = /[a-z]/;
         const hasUppercase = /[A-Z]/;
@@ -51,6 +80,12 @@ const Register = () => {
         if (password.length < 6) {
             return setError("Password must at least 6 character.")
         }
+
+        if (password !== confirm_password) {
+            return alert("Password is not matching!. Try again...");
+        }
+        console.log(userData);
+
         createUser(email, password)
             .then((result) => {
                 updateUser({ displayName: name, photoURL: mainPhotoUrl })
@@ -68,17 +103,6 @@ const Register = () => {
                 setError(err?.message);
                 toast(err?.message);
             })
-    }
-    const handlLoginWithGoggle = () => {
-        signInWithGoogle()
-            .then((result) => {
-                console.log(result.user);
-                navigate("/");
-                toast("Login succesfully complete.")
-            }).catch((err) => {
-                setError(err?.message);
-                toast(err?.message);
-            });
     }
     const handleShowPasswordToggling = () => {
         setShow(!show);
@@ -99,17 +123,45 @@ const Register = () => {
                     {/* Photo */}
                     <label className="label">Upoload Your Image</label>
                     <input name='photo' type="file" className="input" />
-                    {/* Select a the role */}
-                    <label className="label">Role</label>
-                    <select name='role' defaultValue="Choose the role" className="select">
-                        <option disabled={true}>Choose the role</option>
-                        <option value={"manager"}>Manager</option>
-                        <option value={"buyer"}>buyer</option>
+                    {/* Select a the blood group */}
+                    <label className="label">Blood Group</label>
+                    <select name='blood_group' defaultValue="Choose the Blood Group" className="select">
+                        <option value="">Select Blood Group</option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                    </select>
+                    {/* Select a the district */}
+                    <label className="label">District</label>
+                    <select name='district' defaultValue="Choose the District" className="select">
+                        <option value="">Select your District</option>
+                        {
+                            districts.map(district => <option key={district.id} value={district.name}>{district.name}</option>)
+                        }
+                    </select>
+                    {/* Select a the upazila */}
+                    <label className="label">Upazila</label>
+                    <select name='upazila' defaultValue="Choose the Upazila" className="select">
+                        <option value="">Select your Upazila</option>
+                        {
+                            upazilas.map(upazila => <option key={upazila.id} value={upazila.name}>{upazila.name}</option>)
+                        }
                     </select>
                     {/* password */}
                     <label className="label">Password</label>
                     <div className='relative'>
                         <input name='password' type={show ? "password" : "text"} className="input" placeholder="Enter your password" required />
+                        <FaEye onClick={handleShowPasswordToggling} className='absolute top-4 right-4 w-5'></FaEye>
+                    </div>
+                    {/* confirm password */}
+                    <label className="label">Confirm Password</label>
+                    <div className='relative'>
+                        <input name='confirm_password' type={show ? "password" : "text"} className="input" placeholder="Enter your password" required />
                         <FaEye onClick={handleShowPasswordToggling} className='absolute top-4 right-4 w-5'></FaEye>
                     </div>
                     <div>
@@ -119,11 +171,6 @@ const Register = () => {
                     <button type='submit' className="btn bg-accent text-base-100 mt-4">SignUp</button>
                 </fieldset>
             </form>
-            {/* Google */}
-            <button onClick={handlLoginWithGoggle} className="btn bg-white text-black border-[#e5e5e5] w-full">
-                <svg aria-label="Google logo" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><g><path d="m0 0H512V512H0" fill="#fff"></path><path fill="#34a853" d="M153 292c30 82 118 95 171 60h62v48A192 192 0 0190 341"></path><path fill="#4285f4" d="m386 400a140 175 0 0053-179H260v74h102q-7 37-38 57"></path><path fill="#fbbc02" d="m90 341a208 200 0 010-171l63 49q-12 37 0 73"></path><path fill="#ea4335" d="m153 219c22-69 116-109 179-50l55-54c-78-75-230-72-297 55"></path></g></svg>
-                Login with Google
-            </button>
             <p>Already have An Account ? <Link className='text-secondary' to={"/login"}>Login</Link> here.</p>
         </div>
     );

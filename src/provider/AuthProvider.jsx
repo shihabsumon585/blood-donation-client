@@ -47,6 +47,8 @@ const AuthProvider = ({children}) => {
     const signInWithGoogle = () => {
         return signInWithPopup(auth, googleProvider);
     }
+    
+
     const AuthValue = {
         createUser,
         userLogin,
