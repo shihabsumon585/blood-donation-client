@@ -12,7 +12,7 @@ export default function DashbordAsidebar() {
   const menuItems = [
     { name: "Dashboard", path: "/dashbord", icon: LayoutDashboard },
     { name: "Users", path: "/admin/users", icon: Users },
-    { name: "Add-Product", path: "/dashbord/add-product", icon: Plus },
+    { name: "Add-Request", path: "/dashbord/create-donation-request", icon: Plus },
     { name: "Manage Product", path: "/dashbord/manage-product", icon: Package },
     { name: "Reports", path: "/admin/reports", icon: FileText },
     { name: "Settings", path: "/admin/settings", icon: Settings },

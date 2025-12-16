@@ -14,8 +14,6 @@ const Register = () => {
     const navigate = useNavigate();
     const [districts, setDistricts] = useState([]);
     const [upazilas, setUpazilas] = useState([]);
-    // const [district, setDistrict] = useState("");
-    // const [upazila, setUpazila] = useState("");
 
     useEffect(() => {
         axios.get("/districts.json")
