@@ -7,6 +7,7 @@ import DashabordLayout from "../layouts/DashabordLayout.jsx";
 import ManageProduct from "../pages/ManageProduct/ManageProduct.jsx";
 import AddRequest from "../pages/AddRequest/AddRequest.jsx";
 import PrivateRoutes from "../provider/PrivateRoutes.jsx";
+import AllUsers from "../pages/AllUsers/AllUsers.jsx";
 
 
 const router = createBrowserRouter([
@@ -37,8 +38,20 @@ const router = createBrowserRouter([
                 element: <div>Dashborad home page</div>
             },
             {
+                path: "profile",
+                element: <div>My Profile page</div>
+            },
+            {
                 path: "create-donation-request",
                 element: <AddRequest></AddRequest>
+            },
+            {
+                path: "all-users",
+                element: <AllUsers></AllUsers>
+            },
+            {
+                path: "my-donation-requests",
+                element: <div>My Donation Request page</div>
             },
             {
                 path: "manage-product",
