@@ -8,6 +8,7 @@ import ManageProduct from "../pages/ManageProduct/ManageProduct.jsx";
 import AddRequest from "../pages/AddRequest/AddRequest.jsx";
 import PrivateRoutes from "../provider/PrivateRoutes.jsx";
 import AllUsers from "../pages/AllUsers/AllUsers.jsx";
+import MyRequest from "../pages/MyRequest/MyRequest.jsx";
 
 
 const router = createBrowserRouter([
@@ -51,7 +52,7 @@ const router = createBrowserRouter([
             },
             {
                 path: "my-donation-requests",
-                element: <div>My Donation Request page</div>
+                element: <MyRequest></MyRequest>
             },
             {
                 path: "manage-product",
