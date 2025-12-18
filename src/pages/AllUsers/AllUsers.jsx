@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { UserPlus, Star, MoreVertical, } from "lucide-react";
+import { Star } from "lucide-react";
 import useAxiosSecure from "../../hooks/useAxiosSecure/useAxiosSecure";
 
 
@@ -9,22 +9,28 @@ const AllUsers = () => {
     const [filter, setFilter] = useState("all");
     const axiosSecure = useAxiosSecure();
 
-    useEffect(() => {
-        axiosSecure.get("/users")
-            .then(res => {
-                setUsers(res.data);
-            })
-
-    }, [axiosSecure]);
 
     const filteredUsers = users.filter(user => {
         if (filter === "all") return true;
         return user.status === filter;
     });
 
-    const req = useEffect(() => {
-        axiosSecure.patch("/")
-    }, [])
+    const fetchUsers = () => {
+        axiosSecure.get("/users")
+        .then(res => setUsers(res.data))
+    }
+    
+    useEffect(() => {
+        fetchUsers();
+    }, [axiosSecure])
+
+    const handleStatusChange = (email, status) => {
+        axiosSecure.patch(`/update/user/status?email=${email}&status=${status}`)
+        .then(res => {
+            console.log(res.data);
+            fetchUsers();
+        })
+    }
 
 
 
@@ -67,9 +73,9 @@ const AllUsers = () => {
 
                                 {
                                     user?.status == "active" ?
-                                        <button className="btn btn-error text-white">Blocked</button>
+                                        <button onClick={() => handleStatusChange(user?.email, "blocked")} className="btn btn-error text-white">Blocked</button>
                                         :
-                                        <button className="btn btn-success">Active</button>
+                                        <button onClick={() => handleStatusChange(user?.email, "active")} className="btn btn-success">Active</button>
                                 }
 
                             </td>
