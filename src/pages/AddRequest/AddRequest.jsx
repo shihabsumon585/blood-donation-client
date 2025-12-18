@@ -1,11 +1,13 @@
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../provider/AuthProvider';
+import useAxiosSecure from '../../hooks/useAxiosSecure/useAxiosSecure';
 
 const AddRequest = () => {
     const { user } = useContext(AuthContext);
     const [districts, setDistricts] = useState([]);
     const [upazilas, setUpazilas] = useState([]);
+    const axiosSecure = useAxiosSecure();
 
     useEffect(() => {
         axios.get("/districts.json")
@@ -55,7 +57,7 @@ const AddRequest = () => {
             requesterName
         };
 
-        axios.post("http://localhost:5000/donar-requests", donarData)
+        axiosSecure.post("/donar-requests", donarData)
             .then(res => console.log(res.data))
             .catch(err => console.log(err))
     }
