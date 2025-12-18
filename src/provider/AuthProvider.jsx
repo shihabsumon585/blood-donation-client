@@ -6,9 +6,10 @@ export const AuthContext = createContext();
 const googleProvider = new GoogleAuthProvider;
 const AuthProvider = ({children}) => {
     const [role, setRole] = useState("");
+    const [userStatus, setUserStatus] = useState("");
     const [ user, setUser ] = useState(null);
-    console.log(user);
     const [ loading, setLoading ] = useState(true);
+    const [ roleLoading, setRoleLoading ] = useState(true);
     const createUser = (email, password) => {
         setLoading(true);
         return createUserWithEmailAndPassword(auth, email, password);
@@ -30,7 +31,9 @@ const AuthProvider = ({children}) => {
         fetch(`http://localhost:5000/users/${user?.email}`)
         .then(res => res.json())
         .then(data => {
-            setRole(data.role)
+            setRole(data.role);
+            setUserStatus(data?.status);
+            setRoleLoading(false);
         })
         .catch(err => console.log(err))
     }, [user])
@@ -59,7 +62,9 @@ const AuthProvider = ({children}) => {
         setUser,
         loading,
         setLoading,
-        role
+        role,
+        userStatus,
+        roleLoading
     }
     return (
         <AuthContext value={AuthValue}>

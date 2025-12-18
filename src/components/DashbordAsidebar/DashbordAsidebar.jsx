@@ -7,7 +7,6 @@ import { AuthContext } from "../../provider/AuthProvider";
 export default function DashbordAsidebar() {
 
   const { role } = useContext(AuthContext);
-  console.log(role);
 
   const menuItems = [
     { name: "Dashboard", path: "/dashbord", icon: LayoutDashboard },

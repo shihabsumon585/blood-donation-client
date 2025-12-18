@@ -6,6 +6,7 @@ import Register from "../pages/Register/Register.jsx";
 import DashabordLayout from "../layouts/DashabordLayout.jsx";
 import ManageProduct from "../pages/ManageProduct/ManageProduct.jsx";
 import AddRequest from "../pages/AddRequest/AddRequest.jsx";
+import PrivateRoutes from "../provider/PrivateRoutes.jsx";
 
 
 const router = createBrowserRouter([
@@ -29,7 +30,7 @@ const router = createBrowserRouter([
     },
     {
         path: "/dashbord",
-        element: <DashabordLayout></DashabordLayout>,
+        element: <PrivateRoutes><DashabordLayout></DashabordLayout></PrivateRoutes>,
         children: [
             {
                 index: true,
