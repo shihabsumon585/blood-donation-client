@@ -9,7 +9,7 @@ const Navbar = () => {
     const links = <>
         <li><NavLink>All Request</NavLink></li>
         <li><NavLink>Search</NavLink></li>
-        <li><NavLink to={"/create-payment-checkout"}>Donate</NavLink></li>
+        <li><NavLink to={"/donate"}>Donate</NavLink></li>
         {user && <>
             <li><NavLink></NavLink></li>
         </>}

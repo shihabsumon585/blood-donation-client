@@ -10,6 +10,7 @@ import PrivateRoutes from "../provider/PrivateRoutes.jsx";
 import AllUsers from "../pages/AllUsers/AllUsers.jsx";
 import MyRequest from "../pages/MyRequest/MyRequest.jsx";
 import Donate from "../pages/Donate/Donate.jsx";
+import PeymentSuccess from "../pages/PaymentSuccess/PeymentSuccess.jsx";
 
 
 const router = createBrowserRouter([
@@ -30,8 +31,12 @@ const router = createBrowserRouter([
                 element:  <Register></Register>
             },
             {
-                path: "/create-payment-checkout",
+                path: "/donate",
                 element: <Donate></Donate>
+            },
+            {
+                path: "/payment-success",
+                element: <PeymentSuccess></PeymentSuccess>
             }
         ]
     },
