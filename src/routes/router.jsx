@@ -9,6 +9,7 @@ import AddRequest from "../pages/AddRequest/AddRequest.jsx";
 import PrivateRoutes from "../provider/PrivateRoutes.jsx";
 import AllUsers from "../pages/AllUsers/AllUsers.jsx";
 import MyRequest from "../pages/MyRequest/MyRequest.jsx";
+import Donate from "../pages/Donate/Donate.jsx";
 
 
 const router = createBrowserRouter([
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
             {
                 path: "/register",
                 element:  <Register></Register>
+            },
+            {
+                path: "/create-payment-checkout",
+                element: <Donate></Donate>
             }
         ]
     },

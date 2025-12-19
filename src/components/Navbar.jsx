@@ -7,10 +7,11 @@ const Navbar = () => {
     const { user, logOut } = useContext(AuthContext);
 
     const links = <>
-        <li><NavLink>Item 1</NavLink></li>
-        <li><NavLink>Item 1</NavLink></li>
+        <li><NavLink>All Request</NavLink></li>
+        <li><NavLink>Search</NavLink></li>
+        <li><NavLink to={"/create-payment-checkout"}>Donate</NavLink></li>
         {user && <>
-            <li><NavLink>Item 1</NavLink></li>
+            <li><NavLink></NavLink></li>
         </>}
     </>
 
