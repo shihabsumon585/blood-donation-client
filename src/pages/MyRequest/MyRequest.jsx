@@ -23,7 +23,6 @@ const MyRequest = ({ onDelete, onStatusChange }) => {
 
     const numberOfPages = Math.ceil(totalRequest / itemsPerPage);
     const pages = [...Array(numberOfPages).keys()].map(e => e + 1);
-    console.log(pages);
 
     const handlePrev = () => {
         if(currentPage > 1){
