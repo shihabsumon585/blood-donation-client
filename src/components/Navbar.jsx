@@ -1,17 +1,18 @@
 import React, { useContext } from 'react';
 import { Link, NavLink } from 'react-router';
 import { AuthContext } from '../provider/AuthProvider';
+import "./Navbar.css"
 
 const Navbar = () => {
 
     const { user, logOut } = useContext(AuthContext);
 
     const links = <>
-        <li><NavLink>All Request</NavLink></li>
-        <li><NavLink>Search</NavLink></li>
+        <li><NavLink to={"/"}>All Request</NavLink></li>
+        <li><NavLink to={"/search"}>Search</NavLink></li>
         <li><NavLink to={"/donate"}>Donate</NavLink></li>
         {user && <>
-            <li><NavLink></NavLink></li>
+            {/* <li><NavLink to={""}></NavLink></li> */}
         </>}
     </>
 

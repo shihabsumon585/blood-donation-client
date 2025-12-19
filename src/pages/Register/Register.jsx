@@ -9,9 +9,9 @@ import axios from 'axios';
 
 const Register = () => {
     const { createUser, setUser, updateUser } = useContext(AuthContext);
+    const navigate = useNavigate();
     const [error, setError] = useState("");
     const [show, setShow] = useState(true);
-    const navigate = useNavigate();
     const [districts, setDistricts] = useState([]);
     const [upazilas, setUpazilas] = useState([]);
 

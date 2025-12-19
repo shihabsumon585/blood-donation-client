@@ -11,6 +11,7 @@ import AllUsers from "../pages/AllUsers/AllUsers.jsx";
 import MyRequest from "../pages/MyRequest/MyRequest.jsx";
 import Donate from "../pages/Donate/Donate.jsx";
 import PeymentSuccess from "../pages/PaymentSuccess/PeymentSuccess.jsx";
+import SearchRequest from "../pages/SearchRequest/SearchRequest.jsx";
 
 
 const router = createBrowserRouter([
@@ -32,11 +33,15 @@ const router = createBrowserRouter([
             },
             {
                 path: "/donate",
-                element: <Donate></Donate>
+                element: <PrivateRoutes><Donate></Donate></PrivateRoutes>
             },
             {
                 path: "/payment-success",
                 element: <PeymentSuccess></PeymentSuccess>
+            },
+            {
+                path: "/search",
+                element: <SearchRequest></SearchRequest>
             }
         ]
     },
