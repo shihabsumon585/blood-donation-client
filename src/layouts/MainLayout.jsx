@@ -5,7 +5,7 @@ import Footer from "../components/Footer"
 
 const MainLayout = () => {
     return (
-        <div>
+        <div className='flex flex-col min-h-screen'>
             {/* header */}
             <header  className='w-11/12 mx-auto'>
                 <nav>
@@ -14,7 +14,7 @@ const MainLayout = () => {
             </header>
 
             {/* Main body */}
-            <main  className='w-11/12 mx-auto'>
+            <main  className='w-11/12 mx-auto grow'>
                 <Outlet></Outlet>
             </main>
 

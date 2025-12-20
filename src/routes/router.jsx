@@ -12,6 +12,9 @@ import MyRequest from "../pages/MyRequest/MyRequest.jsx";
 import Donate from "../pages/Donate/Donate.jsx";
 import PeymentSuccess from "../pages/PaymentSuccess/PeymentSuccess.jsx";
 import SearchRequest from "../pages/SearchRequest/SearchRequest.jsx";
+import NotFound from "../components/FotFound.jsx";
+import AllRequest from "../pages/AllRequest/AllRequest.jsx";
+import ViewDetails from "../pages/ViewDetails/ViewDetails.jsx";
 
 
 const router = createBrowserRouter([
@@ -42,6 +45,14 @@ const router = createBrowserRouter([
             {
                 path: "/search",
                 element: <SearchRequest></SearchRequest>
+            },
+            {
+                path: "/all-request",
+                element: <AllRequest></AllRequest>
+            },
+            {
+                path: "/view-details/:id",
+                element: <ViewDetails></ViewDetails>
             }
         ]
     },
@@ -74,6 +85,10 @@ const router = createBrowserRouter([
                 element: <ManageProduct></ManageProduct>
             }
         ]
+    },
+    {
+        path: "*",
+        element: <NotFound></NotFound>
     }
 ])
 export default router;

@@ -1,17 +1,21 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link, NavLink } from 'react-router';
 import { AuthContext } from '../provider/AuthProvider';
 import "./Navbar.css"
+import logoImg from "../assets/logo.png"
+import { ChevronDown } from "lucide-react";
 
 const Navbar = () => {
 
+    const [dropdownOpen, setDropdownOpen] = useState(false);
     const { user, logOut } = useContext(AuthContext);
 
     const links = <>
-        <li><NavLink to={"/"}>All Request</NavLink></li>
+        <li><NavLink to={"/"}>Home</NavLink></li>
+        <li><NavLink to={"/all-request"}>All Request</NavLink></li>
         <li><NavLink to={"/search"}>Search</NavLink></li>
-        <li><NavLink to={"/donate"}>Donate</NavLink></li>
         {user && <>
+            <li><NavLink to={"/donate"}>Donate</NavLink></li>
             {/* <li><NavLink to={""}></NavLink></li> */}
         </>}
     </>
@@ -34,7 +38,7 @@ const Navbar = () => {
                             {links}
                         </ul>
                     </div>
-                    <a className="btn btn-ghost text-xl">daisyUI</a>
+                    <Link to={"/"}> <img src={logoImg} alt="" className='w-16 ml-4' /> </Link>
                 </div>
                 <div className="navbar-center hidden lg:flex">
                     <ul className="menu menu-horizontal px-1">
@@ -42,7 +46,51 @@ const Navbar = () => {
                     </ul>
                 </div>
                 <div className="navbar-end">
-                    {
+
+
+
+                    {user ? (
+                        <>
+                            {/* User Avatar & Dropdown */}
+                            <div className="relative">
+                                <button
+                                    onClick={() => setDropdownOpen(!dropdownOpen)}
+                                    className="flex items-center space-x-2 focus:outline-none"
+                                >
+                                    <img
+                                        src={user?.photoURL}
+                                        alt="user avatar"
+                                        className="w-12 h-12 object-cover mr-4  rounded-full"
+                                    />
+                                    {/* <ChevronDown className="w-4 h-4" /> */}
+                                </button>
+
+                                {dropdownOpen && (
+                                    <div className="absolute right-0 mt-2 w-40 bg-white border rounded shadow-lg z-20">
+                                        <Link
+                                            to={"/dashbord"}
+                                            className="block px-4 py-2 hover:bg-gray-200"
+                                        >
+                                            Dashboard
+                                        </Link>
+                                        <button
+                                            onClick={() => handleLogout()}
+                                            className="w-full text-left px-4 py-2 hover:bg-gray-200"
+                                        >
+                                            Logout
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
+                        </>
+                    ) : (
+                        <a href="/login" className=" btn btn-success">
+                            Login
+                        </a>
+                    )}
+
+
+                    {/* {
                         user && <div className='w-11 border-2 border-green-600 rounded-full mr-4 '>
                             <img src={user?.photoURL} alt="" className='w-10 rounded-full' title={user?.displayName} />
                         </div>
@@ -53,7 +101,7 @@ const Navbar = () => {
                     {
                         user?.email ? <button onClick={handleLogout} className="btn btn-primary">Logout</button>
                             : <Link to={"/login"} className="btn btn-primary">Login</Link>
-                    }
+                    } */}
                 </div>
             </div>
         </div>
