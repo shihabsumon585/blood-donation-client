@@ -75,6 +75,7 @@ const MyRequest = () => {
 
     return (
         <div>
+            <title>My Request</title>
             <div className="overflow-x-auto bg-white rounded-2xl shadow">
                 <table className="min-w-full border border-gray-200">
                     <thead className="bg-gray-100 text-left text-sm font-semibold text-gray-700">

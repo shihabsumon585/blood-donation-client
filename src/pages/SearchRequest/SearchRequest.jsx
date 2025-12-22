@@ -47,6 +47,7 @@ const SearchRequest = () => {
 
     return (
         <div>
+            <title>Search</title>
             <div>
                 <form onSubmit={handleSearch} className='flex justify-baseline items-center mt-8 gap-4'>
                     {/* <label className="label">Blood Group</label> */}

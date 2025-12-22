@@ -127,10 +127,6 @@ const DashbordAsidebar = () => {
           <Home size={20} />
           <span className="text-sm font-medium">Back to Home</span>
         </Link>
-        <button className="flex w-full items-center gap-3 px-4 py-3 rounded-xl text-slate-300 hover:bg-red-600 hover:text-white transition-all">
-          <LogOut size={20} />
-          <span className="text-sm font-medium">Logout</span>
-        </button>
       </div>
     </aside>
   );

@@ -18,6 +18,7 @@ const PeymentSuccess = () => {
 
     return (
         <div>
+            <title>Payment Success</title>
             <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
                 <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 text-center">
                     <div className="flex justify-center mb-6">

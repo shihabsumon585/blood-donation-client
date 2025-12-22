@@ -20,6 +20,7 @@ const AllRequest = () => {
 
     return (
         <div>
+            <title>All Request</title>
             <h1 className='text-center my-8 text-3xl font-bold'>All Request</h1>
             <div className='grid grid-cols-3 gap-4 mb-6'>
                 {

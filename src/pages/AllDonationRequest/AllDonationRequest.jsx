@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import useAxiosSecure from '../../hooks/useAxiosSecure/useAxiosSecure';
 import useAxios from '../../hooks/useAxios/useAxios';
 import { AuthContext } from '../../provider/AuthProvider';
+import toast, { Toaster } from 'react-hot-toast';
 
 const AllDonationRequest = () => {
 
@@ -57,11 +58,11 @@ const AllDonationRequest = () => {
             .then(res => {
                 console.log(res.data);
                 fetchingData();
+                toast("Update your request successfully...");
             })
             .catch(err => {
                 console.log(err);
             })
-        alert("clicked inprogress button...")
     }
 
     const handleDelete = (_id) => {
@@ -69,18 +70,17 @@ const AllDonationRequest = () => {
             .then(res => {
                 console.log(res.data);
                 fetchingData()
+                toast("Delete successfully...");
             })
             .catch(err => {
                 console.log(err);
             })
     }
 
-    console.log(role);
-
-    // const handleViewDetails = 
-
     return (
         <div>
+            <Toaster></Toaster>
+            <title>All Request</title>
             <div className="overflow-x-auto bg-white rounded-2xl shadow">
                 <table className="min-w-full border border-gray-200">
                     <thead className="bg-gray-100 text-left text-sm font-semibold text-gray-700">

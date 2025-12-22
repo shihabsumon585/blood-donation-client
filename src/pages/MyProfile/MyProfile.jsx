@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../provider/AuthProvider';
 import axios from 'axios';
 import useAxios from '../../hooks/useAxios/useAxios';
+import toast, { Toaster } from 'react-hot-toast';
 
 const MyProfile = () => {
     const { user, updateUserProfile } = useContext(AuthContext);
@@ -98,7 +99,7 @@ const MyProfile = () => {
             // Update profile state
             setProfile(res.data);
             
-            alert('Profile updated successfully!');
+            toast('Profile updated successfully!');
             setIsEditing(false);
         } catch (error) {
             alert('Failed to update profile. Please try again.');
@@ -118,6 +119,7 @@ const MyProfile = () => {
     return (
         <div>
             <title>My Profile</title>
+            <Toaster></Toaster>
             <div className="min-h-screen bg-gray-100 flex items-center justify-center py-10 px-4">
                 <div className="bg-white shadow-2xl rounded-2xl p-8 md:p-12 w-full max-w-lg border border-gray-200">
                     <div className="flex justify-between items-center mb-8">

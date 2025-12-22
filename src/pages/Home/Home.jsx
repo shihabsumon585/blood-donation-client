@@ -6,6 +6,7 @@ import ContactUs from '../../components/ContactUs';
 const Home = () => {
     return (
         <div>
+            <title>Home</title>
             <Banner></Banner>
             <Featured></Featured>
             <ContactUs></ContactUs>

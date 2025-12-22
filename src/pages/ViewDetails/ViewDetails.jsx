@@ -1,9 +1,12 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import useAxios from '../../hooks/useAxios/useAxios';
 import { AuthContext } from '../../provider/AuthProvider';
+import toast, { Toaster } from 'react-hot-toast';
 
 const ViewDetails = () => {
+
+    const navigate = useNavigate();
 
     const { id } = useParams();
     const axiosInstance = useAxios();
@@ -33,19 +36,20 @@ const ViewDetails = () => {
         const name = user?.displayName;
         const status = "inprogress"
 
-        const updateData = {email, name, status}
+        const updateData = { email, name, status }
 
         axiosInstance.patch(`/update-status/${donar?._id}`, updateData)
             .then(res => {
-                console.log(res.data);
+                toast.success("Donation request accepted!");
                 fetchData();
+                
+                setTimeout(() => {
+                    navigate("/all-request");
+                }, 1500); 
             })
             .catch(err => {
                 console.log(err);
             })
-
-
-        alert("clicked inprogress button...")
 
     }
 
@@ -53,6 +57,8 @@ const ViewDetails = () => {
 
     return (
         <div>
+            <title>Details</title>
+            <Toaster></Toaster>
             <div className="max-w-4xl mx-auto p-6">
 
                 {/* Page Title */}

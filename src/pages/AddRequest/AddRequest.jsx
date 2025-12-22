@@ -2,8 +2,11 @@ import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../provider/AuthProvider';
 import useAxiosSecure from '../../hooks/useAxiosSecure/useAxiosSecure';
+import toast, { Toaster } from 'react-hot-toast';
+import { useNavigate } from 'react-router';
 
 const AddRequest = () => {
+    const navigate = useNavigate();
     const { user } = useContext(AuthContext);
     const [districts, setDistricts] = useState([]);
     const [upazilas, setUpazilas] = useState([]);
@@ -58,12 +61,20 @@ const AddRequest = () => {
         };
 
         axiosSecure.post("/donar-requests", donarData)
-            .then(res => console.log(res.data))
+            .then(res => {
+                toast("Accept your request successfully...");
+                e.target.reset();
+                // setTimeout(() => {
+                //     navigate("dashbord/create-donation-request");
+                // }, 1500);
+            })
             .catch(err => console.log(err))
     }
 
     return (
         <div className='mt-2 mx-auto flex justify-center'>
+            <Toaster></Toaster>
+            <title>Add Request</title>
             <div className="min-w-3xl mx-auto p-6 bg-white shadow rounded-lg">
                 <h2 className="text-2xl font-bold mb-6 text-center">
                     Create Blood Donation Request

@@ -39,6 +39,7 @@ const Donate = () => {
 
     return (
         <div>
+            <title>Donation</title>
 
             {/* <form onSubmit={handleCheckout} className='flex justify-center items-center mt-10 gap-4'>
                 <input name='donateAmount' type="text" placeholder='Type here' className='input' />

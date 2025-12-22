@@ -47,13 +47,13 @@ const AllUsers = ({ handleDelete }) => {
             .catch(err => {
                 console.log(err);
             })
-        alert(`clicking ${role} button`);
     }
 
 
 
     return (
         <div className="p-4">
+            <title>All Users</title>
             <h1 className="text-2xl font-bold mb-4 flex items-center gap-2">
                 <Star size={24} /> All Users
             </h1>

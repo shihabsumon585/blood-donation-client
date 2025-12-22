@@ -1,11 +1,13 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import useAxios from '../../hooks/useAxios/useAxios';
 import axios from 'axios';
-import useAxiosSecure from '../../hooks/useAxiosSecure/useAxiosSecure';
+// import useAxiosSecure from '../../hooks/useAxiosSecure/useAxiosSecure';
 import { AuthContext } from '../../provider/AuthProvider';
 
 const EditDonationRequest = () => {
+
+    const navigate = useNavigate();
     const { id } = useParams()
     const axiosInstance = useAxios();
     const [data, setData] = useState([]);
@@ -13,7 +15,7 @@ const EditDonationRequest = () => {
     const { user } = useContext(AuthContext);
     const [districts, setDistricts] = useState([]);
     const [upazilas, setUpazilas] = useState([]);
-    const axiosSecure = useAxiosSecure();
+    // const axiosSecure = useAxiosSecure();
 
     useEffect(() => {
         axios.get("/districts.json")
@@ -82,6 +84,8 @@ const EditDonationRequest = () => {
             .then(res => {
                 console.log(res.data);
                 fetchingData();
+                alert("Update your blood request!")
+                navigate("/dashbord");
             })
             .catch(err => {
                 console.log(err);
@@ -90,6 +94,7 @@ const EditDonationRequest = () => {
 
     return (
         <div>
+            <title>Edit Request</title>
             <div className='mt-2 mx-auto flex justify-center'>
                 <div className="min-w-3xl mx-auto p-6 bg-white shadow rounded-lg">
                     <h2 className="text-2xl font-bold mb-6 text-center">
@@ -130,6 +135,7 @@ const EditDonationRequest = () => {
                                 name="recipientName"
                                 required
                                 className="input input-bordered w-full"
+                                defaultValue={data?.recipientName}
                             />
                         </div>
 
@@ -160,6 +166,7 @@ const EditDonationRequest = () => {
                                 required
                                 placeholder="Dhaka Medical College Hospital"
                                 className="input input-bordered w-full"
+                                defaultValue={data?.hospitalName}
                             />
                         </div>
 
@@ -172,6 +179,7 @@ const EditDonationRequest = () => {
                                 required
                                 placeholder="Zahir Raihan Rd, Dhaka"
                                 className="input input-bordered w-full"
+                                defaultValue={data?.address}
                             />
                         </div>
 
@@ -203,6 +211,7 @@ const EditDonationRequest = () => {
                                 name="donationDate"
                                 required
                                 className="input input-bordered w-full"
+                                defaultValue={data?.donationDate}
                             />
                         </div>
 
@@ -214,6 +223,7 @@ const EditDonationRequest = () => {
                                 name="donationTime"
                                 required
                                 className="input input-bordered w-full"
+                                defaultValue={data?.donationTime}
                             />
                         </div>
 
@@ -226,6 +236,7 @@ const EditDonationRequest = () => {
                                 rows="4"
                                 className="textarea textarea-bordered w-full"
                                 placeholder="Explain why blood is needed..."
+                                defaultValue={data?.message}
                             />
                         </div>
 

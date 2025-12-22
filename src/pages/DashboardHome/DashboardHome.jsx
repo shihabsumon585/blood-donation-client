@@ -31,6 +31,7 @@ const DashboardHome = () => {
 
     return (
         <div>
+            <title>Dashboard</title>
             {/* Welcome Banner */}
             <WelcomeBanner></WelcomeBanner>
 
