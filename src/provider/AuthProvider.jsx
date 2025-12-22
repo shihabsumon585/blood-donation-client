@@ -35,7 +35,11 @@ const AuthProvider = ({children}) => {
             setUserStatus(data?.status);
             setRoleLoading(false);
         })
-        .catch(err => console.log(err))
+        .catch(err => {
+            console.log(err);
+            setRoleLoading(false);
+        })
+        
     }, [user])
 
     const logOut = () => {

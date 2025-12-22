@@ -1,10 +1,9 @@
 import { createBrowserRouter } from "react-router";
 import MainLayout from "../layouts/MainLayout";
 import Home from "../pages/Home/Home.jsx"
-import Login from "../pages/Login/Login.jsx"; 
-import Register from "../pages/Register/Register.jsx"; 
+import Login from "../pages/Login/Login.jsx";
+import Register from "../pages/Register/Register.jsx";
 import DashabordLayout from "../layouts/DashabordLayout.jsx";
-import ManageProduct from "../pages/ManageProduct/ManageProduct.jsx";
 import AddRequest from "../pages/AddRequest/AddRequest.jsx";
 import PrivateRoutes from "../provider/PrivateRoutes.jsx";
 import AllUsers from "../pages/AllUsers/AllUsers.jsx";
@@ -15,6 +14,10 @@ import SearchRequest from "../pages/SearchRequest/SearchRequest.jsx";
 import NotFound from "../components/FotFound.jsx";
 import AllRequest from "../pages/AllRequest/AllRequest.jsx";
 import ViewDetails from "../pages/ViewDetails/ViewDetails.jsx";
+import DashboardHome from "../pages/DashboardHome/DashboardHome.jsx";
+import MyProfile from "../pages/MyProfile/MyProfile.jsx";
+import EditDonationRequest from "../pages/EditDonationRequest/EditDonationRequest.jsx";
+import AllDonationRequest from "../pages/AllDonationRequest/AllDonationRequest.jsx";
 
 
 const router = createBrowserRouter([
@@ -32,7 +35,7 @@ const router = createBrowserRouter([
             },
             {
                 path: "/register",
-                element:  <Register></Register>
+                element: <Register></Register>
             },
             {
                 path: "/donate",
@@ -62,11 +65,11 @@ const router = createBrowserRouter([
         children: [
             {
                 index: true,
-                element: <div>Dashborad home page</div>
+                element: <DashboardHome></DashboardHome>
             },
             {
                 path: "profile",
-                element: <div>My Profile page</div>
+                element: <MyProfile></MyProfile>
             },
             {
                 path: "create-donation-request",
@@ -81,8 +84,12 @@ const router = createBrowserRouter([
                 element: <MyRequest></MyRequest>
             },
             {
-                path: "manage-product",
-                element: <ManageProduct></ManageProduct>
+                path: "edit-donation/:id",
+                element: <EditDonationRequest></EditDonationRequest>
+            },
+            {
+                path: "all-donation-request",
+                element: <AllDonationRequest></AllDonationRequest>
             }
         ]
     },

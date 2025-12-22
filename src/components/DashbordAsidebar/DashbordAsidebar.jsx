@@ -1,10 +1,10 @@
 import { NavLink } from "react-router-dom";
-import { LayoutDashboard, Users, FileText, Settings, LogOut, Home, Plus, Package, UserCircle, User2, UserX2, User2Icon, Users2, LayoutDashboardIcon, Heart } from "lucide-react";
+import { Users, LogOut, Home, Plus, UserCircle, LayoutDashboardIcon, Heart, HandHeart } from "lucide-react";
 import { Link } from "react-router";
 import { useContext } from "react";
 import { AuthContext } from "../../provider/AuthProvider";
 
-const DashbordAsidebar = () =>  {
+const DashbordAsidebar = () => {
 
   const { role } = useContext(AuthContext);
 
@@ -100,6 +100,25 @@ const DashbordAsidebar = () =>  {
             </NavLink>
           )
         }
+
+        {/* All Donation Request Page for admin and volunteer */}
+        {
+          (role == "volunteer" || role === "admin") && (
+            <NavLink
+              to={"/dashbord/all-donation-request"}
+              className={({ isActive }) =>
+                `flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${isActive
+                  ? "bg-blue-600 text-white"
+                  : "text-slate-300 hover:bg-slate-800 hover:text-white border-b-0 border-white"
+                }`
+              }
+            >
+              <HandHeart size={20} />
+              <span className="text-sm font-medium">All Donation Request</span>
+            </NavLink>
+          )
+        }
+
       </nav>
 
       {/* Footer */}

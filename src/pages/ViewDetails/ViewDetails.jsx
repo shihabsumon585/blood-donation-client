@@ -1,28 +1,53 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import useAxios from '../../hooks/useAxios/useAxios';
+import { AuthContext } from '../../provider/AuthProvider';
 
 const ViewDetails = () => {
 
     const { id } = useParams();
-    console.log(id);
     const axiosInstance = useAxios();
+    const { user } = useContext(AuthContext);
     const [donar, setDonar] = useState([]);
-    console.log(donar);
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const fetchData = useCallback(() => {
+        axiosInstance.get(`/view-details/${id}`)
+            .then(res => setDonar(res.data))
+            .catch(err => console.log(err))
+    })
 
 
     useEffect(() => {
-        axiosInstance.get(`/view-details/${id}`)
+        fetchData();
+    }, [fetchData]);
+    // console.log(donar);
+
+
+
+    const handleStatusChange = (e) => {
+
+        e.preventDefault();
+
+        const email = user?.email;
+        const name = user?.displayName;
+        const status = "inprogress"
+
+        const updateData = {email, name, status}
+
+        axiosInstance.patch(`/update-status/${donar?._id}`, updateData)
             .then(res => {
-                setDonar(res.data);
+                console.log(res.data);
+                fetchData();
             })
             .catch(err => {
                 console.log(err);
             })
-    }, [axiosInstance, id]);
 
-    // if (!donar) return <div className="text-center py-10">Loading...</div>;
+
+        alert("clicked inprogress button...")
+
+    }
 
 
 
@@ -90,7 +115,7 @@ const ViewDetails = () => {
 
                 {/* ================= MODAL ================= */}
                 {isModalOpen && (
-                    <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+                    <div className="fixed inset-0 bg-gray-200 bg-opacity-40 flex items-center justify-center z-50">
                         <div className="bg-white w-full max-w-md rounded-xl shadow-lg p-6">
 
                             <h3 className="text-xl font-bold text-gray-800 mb-4">
@@ -106,7 +131,7 @@ const ViewDetails = () => {
                                     <input
                                         type="text"
                                         readOnly
-                                        value="Logged in user name"
+                                        value={user?.displayName}
                                         className="input input-bordered w-full bg-gray-100"
                                     />
                                 </div>
@@ -118,7 +143,7 @@ const ViewDetails = () => {
                                     <input
                                         type="email"
                                         readOnly
-                                        value="loggedinuser@email.com"
+                                        value={user?.email}
                                         className="input input-bordered w-full bg-gray-100"
                                     />
                                 </div>
@@ -133,6 +158,7 @@ const ViewDetails = () => {
                                     </button>
 
                                     <button
+                                        onClick={handleStatusChange}
                                         type="submit"
                                         className="w-1/2 bg-red-500 hover:bg-red-600 text-white py-2 rounded-lg font-semibold"
                                     >

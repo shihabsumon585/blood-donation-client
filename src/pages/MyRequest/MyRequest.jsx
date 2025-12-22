@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import useAxiosSecure from '../../hooks/useAxiosSecure/useAxiosSecure';
+import useAxios from '../../hooks/useAxios/useAxios';
 
-const MyRequest = ({ onDelete, onStatusChange }) => {
+const MyRequest = () => {
+
+    const axiosInstance = useAxios();
 
     const [confirmId, setConfirmId] = useState(null);
 
@@ -10,31 +13,65 @@ const MyRequest = ({ onDelete, onStatusChange }) => {
     const [totalRequest, setTotalRequest] = useState(0);
     const [itemsPerPage, setItemsPerPage] = useState(10);
     const [currentPage, setCurrentPage] = useState(1);
-    console.log("my request: ", myRequests, "total request: ", totalRequest);
     const axiosSecure = useAxiosSecure();
 
-    useEffect(() => {
+    const fetchingData = useCallback(() => {
         axiosSecure.get(`/my-request?page=${currentPage - 1}&size=${itemsPerPage}`)
             .then(res => {
                 setMyRequests(res.data.request);
                 setTotalRequest(res.data.totalRequest);
             })
-    }, [axiosSecure, currentPage, itemsPerPage])
+    })
+
+    useEffect(() => {
+        fetchingData();
+    }, [fetchingData])
 
     const numberOfPages = Math.ceil(totalRequest / itemsPerPage);
     const pages = [...Array(numberOfPages).keys()].map(e => e + 1);
 
     const handlePrev = () => {
-        if(currentPage > 1){
+        if (currentPage > 1) {
             setCurrentPage(currentPage - 1);
         }
     }
-    
+
     const handleNext = () => {
-        if(currentPage < pages.length){
+        if (currentPage < pages.length) {
             setCurrentPage(currentPage + 1);
         }
     }
+
+
+    const handleStatusChange = (_id, updateStatus) => {
+
+        const status = updateStatus;
+
+        const updateData = { status };
+
+        axiosInstance.patch(`/update-status/${_id}`, updateData)
+            .then(res => {
+                console.log(res.data);
+                fetchingData();
+            })
+            .catch(err => {
+                console.log(err);
+            })
+        alert("clicked inprogress button...")
+    }
+
+    const handleDelete = (_id) => {
+        axiosInstance.delete(`/requests-delete/${_id}`)
+        .then(res => {
+            console.log(res.data);
+            fetchingData()
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    }
+
+    // const handleViewDetails = 
 
     return (
         <div>
@@ -85,13 +122,13 @@ const MyRequest = ({ onDelete, onStatusChange }) => {
                                     {d.status === "inprogress" && (
                                         <div className="mt-2 flex gap-2">
                                             <button
-                                                onClick={() => onStatusChange(d._id, "done")}
+                                                onClick={() => handleStatusChange(d._id, "done")}
                                                 className="px-2 py-1 text-xs rounded bg-green-600 text-white"
                                             >
                                                 Done
                                             </button>
                                             <button
-                                                onClick={() => onStatusChange(d._id, "canceled")}
+                                                onClick={() => handleStatusChange(d._id, "canceled")}
                                                 className="px-2 py-1 text-xs rounded bg-red-600 text-white"
                                             >
                                                 Cancel
@@ -101,25 +138,28 @@ const MyRequest = ({ onDelete, onStatusChange }) => {
                                 </td>
 
                                 <td className="px-4 py-3">
-                                    {d.status === "inprogress" && d.donor ? (
+                                    {d.status === "inprogress" && d.donarEmail ? (
                                         <div className="text-xs">
-                                            <p className="font-medium">{d.donor.name}</p>
-                                            <p className="text-gray-500">{d.donor.email}</p>
+                                            <p className="font-medium">{d?.donarName}</p>
+                                            <p className="text-gray-500">{d?.donarEmail}</p>
                                         </div>
                                     ) : (
                                         <span className="text-gray-400">—</span>
                                     )}
+                                    {
+
+                                    }
                                 </td>
                                 <td className="px-4 py-3">
                                     <div className="flex justify-center gap-2">
                                         <Link
-                                            to={`/dashboard/donation/${d._id}`}
+                                            to={`/view-details/${d._id}`}
                                             className="px-3 py-1 text-xs rounded bg-gray-200"
                                         >
                                             View
                                         </Link>
                                         <Link
-                                            to={`/dashboard/edit-donation/${d._id}`}
+                                            to={`/dashbord/edit-donation/${d._id}`}
                                             className="px-3 py-1 text-xs rounded bg-blue-600 text-white"
                                         >
                                             Edit
@@ -150,7 +190,7 @@ const MyRequest = ({ onDelete, onStatusChange }) => {
                                                     </button>
                                                     <button
                                                         onClick={() => {
-                                                            onDelete(d._id);
+                                                            handleDelete(d._id);
                                                             setConfirmId(null);
                                                         }}
                                                         className="px-4 py-2 rounded bg-red-600 text-white"
@@ -169,10 +209,11 @@ const MyRequest = ({ onDelete, onStatusChange }) => {
                 <div className='my-6 flex justify-center items-center gap-4'>
                     <button onClick={handlePrev} className="btn">Prev</button>
                     {
-                        pages.map(page => 
-                            <button 
-                            className={`btn hover:underline hover:text-blue-500 ${page === currentPage ? "bg-[#435585] text-white" : ""}`}
-                            onClick={()=>setCurrentPage(page)}
+                        pages.map((page, index) =>
+                            <button
+                                key={index}
+                                className={`btn hover:underline hover:text-blue-500 ${page === currentPage ? "bg-[#435585] text-white" : ""}`}
+                                onClick={() => setCurrentPage(page)}
                             >{page}</button>
                         )
                     }
