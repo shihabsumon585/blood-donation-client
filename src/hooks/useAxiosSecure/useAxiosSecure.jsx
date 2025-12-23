@@ -4,7 +4,7 @@ import { AuthContext } from "../../provider/AuthProvider";
 
 
 const axiosSecure = axios.create({
-    baseURL: "http://localhost:5000"
+    baseURL: "https://blood-donation-iota-lake.vercel.app"
 })
 
 const useAxiosSecure = () => {
@@ -18,7 +18,7 @@ const useAxiosSecure = () => {
         const resInterceptor = axiosSecure.interceptors.response.use((response) => {
             return response;
         }, (error)=> {
-            console.log(error);
+            // console.log(error);
             return Promise.reject(error)
         });
 

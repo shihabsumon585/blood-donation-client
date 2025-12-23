@@ -18,7 +18,7 @@ const AllDonationRequest = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const axiosSecure = useAxiosSecure();
 
-    console.log(myRequests);
+    // console.log(myRequests);
 
     const fetchingData = useCallback(() => {
         axiosSecure.get(`/all-donation-request?page=${currentPage - 1}&size=${itemsPerPage}`)
@@ -56,24 +56,24 @@ const AllDonationRequest = () => {
 
         axiosInstance.patch(`/update-status/${_id}`, updateData)
             .then(res => {
-                console.log(res.data);
+                // console.log(res.data);
                 fetchingData();
                 toast("Update your request successfully...");
             })
             .catch(err => {
-                console.log(err);
+                // console.log(err);
             })
     }
 
     const handleDelete = (_id) => {
         axiosInstance.delete(`/requests-delete/${_id}`)
             .then(res => {
-                console.log(res.data);
+                // console.log(res.data);
                 fetchingData()
                 toast("Delete successfully...");
             })
             .catch(err => {
-                console.log(err);
+                // console.log(err);
             })
     }
 

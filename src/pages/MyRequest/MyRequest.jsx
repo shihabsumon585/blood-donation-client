@@ -51,11 +51,11 @@ const MyRequest = () => {
 
         axiosInstance.patch(`/update-status/${_id}`, updateData)
             .then(res => {
-                console.log(res.data);
+                // console.log(res.data);
                 fetchingData();
             })
             .catch(err => {
-                console.log(err);
+                // console.log(err);
             })
         alert("clicked inprogress button...")
     }
@@ -63,11 +63,11 @@ const MyRequest = () => {
     const handleDelete = (_id) => {
         axiosInstance.delete(`/requests-delete/${_id}`)
         .then(res => {
-            console.log(res.data);
+            // console.log(res.data);
             fetchingData()
         })
         .catch(err => {
-            console.log(err);
+            // console.log(err);
         })
     }
 

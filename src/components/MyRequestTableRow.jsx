@@ -24,11 +24,11 @@ const MyRequestTableRow = ({ d, index, fetchingData }) => {
 
         axiosInstance.patch(`/update-status/${_id}`, updateData)
             .then(res => {
-                console.log(res.data);
+                // console.log(res.data);
                 fetchingData();
             })
             .catch(err => {
-                console.log(err);
+                // console.log(err);
             })
 
 

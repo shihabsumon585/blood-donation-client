@@ -31,7 +31,7 @@ const AllUsers = ({ handleDelete }) => {
     const handleStatusChange = (email, status) => {
         axiosSecure.patch(`/update/user/status?email=${email}&status=${status}`)
             .then(res => {
-                console.log(res.data);
+                // console.log(res.data);
                 fetchUsers();
             })
     }
@@ -41,11 +41,11 @@ const AllUsers = ({ handleDelete }) => {
         const updateData = { role };
         axiosInstance.patch(`/users/role/${_id}`, updateData)
             .then(res => {
-                console.log(res.data);
+                // console.log(res.data);
                 fetchUsers();
             })
             .catch(err => {
-                console.log(err);
+                // console.log(err);
             })
     }
 

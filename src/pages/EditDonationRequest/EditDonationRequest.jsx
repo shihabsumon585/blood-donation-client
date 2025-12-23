@@ -23,7 +23,7 @@ const EditDonationRequest = () => {
                 setDistricts(res.data)
             })
             .catch(err => {
-                console.log(err);
+                // console.log(err);
             })
 
         axios.get("/upazilas.json")
@@ -31,7 +31,7 @@ const EditDonationRequest = () => {
                 setUpazilas(res.data)
             })
             .catch(err => {
-                console.log(err);
+                // console.log(err);
             })
     }, [])
 
@@ -41,14 +41,14 @@ const EditDonationRequest = () => {
                 setData(res.data);
             })
             .catch(err => {
-                console.log(err);
+                // console.log(err);
             })
     }, [axiosInstance, id])
     useEffect(() => {
         fetchingData();
     }, [fetchingData])
 
-    console.log(data);
+    // console.log(data);
 
     const handleUpdateData = (e) => {
         e.preventDefault();
@@ -82,13 +82,13 @@ const EditDonationRequest = () => {
 
         axiosInstance.patch(`/edit-donation/${id}`, updateData)
             .then(res => {
-                console.log(res.data);
+                // console.log(res.data);
                 fetchingData();
                 alert("Update your blood request!")
                 navigate("/dashbord");
             })
             .catch(err => {
-                console.log(err);
+                // console.log(err);
             })
     }
 

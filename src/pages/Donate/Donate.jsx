@@ -33,7 +33,7 @@ const Donate = () => {
                 setPayments(res.data);
             })
             .catch(err => {
-                console.log(err);
+                // console.log(err);
             })
     }, [axiosInstance])
 

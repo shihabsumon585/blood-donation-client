@@ -18,7 +18,7 @@ const AddRequest = () => {
                 setDistricts(res.data)
             })
             .catch(err => {
-                console.log(err);
+                // console.log(err);
             })
 
         axios.get("/upazilas.json")
@@ -26,7 +26,7 @@ const AddRequest = () => {
                 setUpazilas(res.data)
             })
             .catch(err => {
-                console.log(err);
+                // console.log(err);
             })
     }, [])
 

@@ -12,7 +12,7 @@ const PeymentSuccess = () => {
     useEffect(() => {
         axiosInstance.post(`/success-peyment?session_id=${sessionId}`)
             .then(res => {
-                console.log(res.data);
+                // console.log(res.data);
             })
     }, [axiosInstance, sessionId])
 

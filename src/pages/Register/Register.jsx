@@ -21,7 +21,7 @@ const Register = () => {
                 setDistricts(res.data)
             })
             .catch(err => {
-                console.log(err);
+                // console.log(err);
             })
 
         axios.get("/upazilas.json")
@@ -29,7 +29,7 @@ const Register = () => {
                 setUpazilas(res.data)
             })
             .catch(err => {
-                console.log(err);
+                // console.log(err);
             })
     }, [])
 
@@ -82,7 +82,7 @@ const Register = () => {
         if (password !== confirm_password) {
             return alert("Password is not matching!. Try again...");
         }
-        console.log(userData);
+        // console.log(userData);
 
         createUser(email, password)
             .then((result) => {
@@ -92,7 +92,7 @@ const Register = () => {
                 setError("");
                 toast("Register succesfully complete.")
 
-                axios.post("http://localhost:5000/users", userData)
+                axios.post("https://blood-donation-iota-lake.vercel.app/users", userData)
                     .then(res => console.log(res))
                     .catch(err => console.log(err))
 

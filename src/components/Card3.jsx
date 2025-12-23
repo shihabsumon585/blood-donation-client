@@ -12,21 +12,21 @@ const Card3 = () => {
     useEffect(() => {
         axiosInstance.get("/donar-requests")
         .then(res => setDonars(res.data.length))
-        .catch(err => console.log(err))
+        // .catch(err => console.log(err))
         
     }, [axiosInstance]);
     
     useEffect(() => {        
         axiosInstance.get("/users/count")
         .then(res => setUsers(res.data.length))
-        .catch(err => console.log(err))
+        // .catch(err => console.log(err))
         
     }, [axiosInstance]);
     
     useEffect(() => {        
         axiosInstance.get("/payments")
         .then(res => setPayment(res.data))
-        .catch(err => console.log(err))
+        // .catch(err => console.log(err))
         
     }, [axiosInstance]);
 

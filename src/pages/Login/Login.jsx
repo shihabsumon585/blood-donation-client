@@ -51,11 +51,11 @@ const Login = () => {
     const handlLoginWithGoggle = () => {
         signInWithGoogle()
             .then((result) => {
-                console.log(result.user);
+                // console.log(result.user);
                 toast("Login succesfully complete");
                 navigate("/");
             }).catch((err) => {
-                console.log(err);
+                // console.log(err);
                 setError(err?.message)
                 toast(err?.message);
             });

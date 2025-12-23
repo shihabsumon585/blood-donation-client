@@ -28,7 +28,7 @@ const AuthProvider = ({children}) => {
 
     useEffect(()=> {
         if(!user) return;
-        fetch(`http://localhost:5000/users/${user?.email}`)
+        fetch(`https://blood-donation-iota-lake.vercel.app/users/${user?.email}`)
         .then(res => res.json())
         .then(data => {
             setRole(data.role);
@@ -36,7 +36,7 @@ const AuthProvider = ({children}) => {
             setRoleLoading(false);
         })
         .catch(err => {
-            console.log(err);
+            // console.log(err);
             setRoleLoading(false);
         })
         

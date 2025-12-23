@@ -11,7 +11,7 @@ const SearchRequest = () => {
     // after filtering data
     const [filteringData, setFilteringData] = useState([]); // এখান থেকে তুমি ফিল্টার করার পরের ডাটা পাবে। এখন তোমার কাজ হলো এখান থেকে যে ডাটা পাওয়া যাবে সেগুলো ব্যবহার করে নিচে সার্চ অপশনগুলোর নিচে তুমি ফলাফল/ফিল্টারিং ডাটা গুলো কার্ড আকারে দেখাবে। যদি কোনো ডাটা পাওয়া না যায় তাহলে তুমি দেখাবে আপনার তথ্যের সাথে কোনো তথ্য খুজে পাওয়া যায়নি। বুঝতে পেরেছ? এখন আমি তোমাকে আমার পুরো কোড দিবো। তুমি পুরোটা নিয়ে আমাকে শুধু যেখানে নতুন কোড যোগ করতে হবে সেই কোডটুকু দেবে আমি যোগ করে দিবো। আর হ্যা সার্চ করার আগে সেখানে দেখাবে যে “আপনার ব্লাড সার্চ করুন” এমন কিছু একটা দেখাবে। তোমার সুবিধার জন্য আমার রিকুয়ারমেন্টাও তোমাকে আমি দিয়ে দিচ্ছি।
 
-    console.log(filteringData);
+    // console.log(filteringData);
 
     useEffect(() => {
         axios.get("/districts.json")
@@ -19,7 +19,7 @@ const SearchRequest = () => {
                 setDistricts(res.data)
             })
             .catch(err => {
-                console.log(err);
+                // console.log(err);
             })
 
         axios.get("/upazilas.json")
@@ -27,7 +27,7 @@ const SearchRequest = () => {
                 setUpazilas(res.data)
             })
             .catch(err => {
-                console.log(err);
+                // console.log(err);
             })
     }, [])
 
@@ -37,7 +37,7 @@ const SearchRequest = () => {
         const district = e.target.district.value;
         const upazila = e.target.upazila.value;
 
-        console.log(bloodGroup, district, upazila);
+        // console.log(bloodGroup, district, upazila);
 
         axiosInstance.get(`/search-requests?bloodGroup=${bloodGroup}&district=${district}&upazila=${upazila}`)
             .then(res => {

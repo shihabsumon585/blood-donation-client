@@ -29,7 +29,7 @@ const MyProfile = () => {
                 setDistricts(res.data);
             })
             .catch(err => {
-                console.log('Error loading districts:', err);
+                // console.log('Error loading districts:', err);
             });
 
         axios.get("/upazilas.json")
@@ -37,7 +37,7 @@ const MyProfile = () => {
                 setUpazilas(res.data);
             })
             .catch(err => {
-                console.log('Error loading upazilas:', err);
+                // console.log('Error loading upazilas:', err);
             });
     }, []);
 
@@ -58,7 +58,7 @@ const MyProfile = () => {
                 setDistrict(res.data.district || '');
                 setUpazila(res.data.upazila || '');
             } catch (error) {
-                console.log('Error fetching profile:', error);
+                // console.log('Error fetching profile:', error);
                 // Fallback to user data from AuthContext
                 setName(user.displayName || '');
                 setEmail(user.email || '');
