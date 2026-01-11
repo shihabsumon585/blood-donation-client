@@ -3,12 +3,15 @@ import { Link, NavLink } from 'react-router';
 import { AuthContext } from '../provider/AuthProvider';
 import "./Navbar.css"
 import logoImg from "../assets/logo.png"
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Moon, Sun } from "lucide-react";
+
+
+
 
 const Navbar = () => {
 
     const [dropdownOpen, setDropdownOpen] = useState(false);
-    const { user, logOut } = useContext(AuthContext);
+    const { user, logOut, mode, setMode } = useContext(AuthContext);
 
     const links = <>
         <li><NavLink to={"/"}>Home</NavLink></li>
@@ -24,9 +27,14 @@ const Navbar = () => {
         logOut();
     }
 
+    const isDarkMode = (mode) => {
+        setMode(mode)
+    }
+
+
     return (
         <div>
-            <div className="navbar bg-base-100 shadow-sm">
+            <div className="navbar dark:shadow-lg dark:bg-gray-800">
                 <div className="navbar-start">
                     <div className="dropdown">
                         <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -47,6 +55,13 @@ const Navbar = () => {
                 </div>
                 <div className="navbar-end">
 
+
+                    {/* dark/light mode */}
+                    <div className='mr-4' onClick={() => isDarkMode(mode === "light" ? "dark" : "light")} >
+                        {
+                            mode === "light" ? <Sun size={24} className="w-6 h-6 cursor-pointer" /> : <Moon size={24} className="w-6 h-6 cursor-pointer text-yellow-500" />
+                        }
+                    </div>
 
 
                     {user ? (
@@ -90,18 +105,7 @@ const Navbar = () => {
                     )}
 
 
-                    {/* {
-                        user && <div className='w-11 border-2 border-green-600 rounded-full mr-4 '>
-                            <img src={user?.photoURL} alt="" className='w-10 rounded-full' title={user?.displayName} />
-                        </div>
-                    }
-                    <div className='mr-4'>
-                        <Link to={"/dashbord"} className="btn btn-outline">Dashabord</Link>
-                    </div>
-                    {
-                        user?.email ? <button onClick={handleLogout} className="btn btn-primary">Logout</button>
-                            : <Link to={"/login"} className="btn btn-primary">Login</Link>
-                    } */}
+
                 </div>
             </div>
         </div>

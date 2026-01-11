@@ -10,6 +10,9 @@ const AuthProvider = ({children}) => {
     const [ user, setUser ] = useState(null);
     const [ loading, setLoading ] = useState(true);
     const [ roleLoading, setRoleLoading ] = useState(true);
+
+    const [mode, setMode] = useState("light");
+
     const createUser = (email, password) => {
         setLoading(true);
         return createUserWithEmailAndPassword(auth, email, password);
@@ -54,6 +57,7 @@ const AuthProvider = ({children}) => {
     const signInWithGoogle = () => {
         return signInWithPopup(auth, googleProvider);
     }
+    console.log(mode)
     
 
     const AuthValue = {
@@ -68,7 +72,9 @@ const AuthProvider = ({children}) => {
         setLoading,
         role,
         userStatus,
-        roleLoading
+        roleLoading,
+        mode,
+        setMode
     }
     return (
         <AuthContext value={AuthValue}>
