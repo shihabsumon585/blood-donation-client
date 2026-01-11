@@ -1,7 +1,17 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
-@theme{
-    --color-primary: #1E40AF;
-    --color-secondary: #F59E0B;
+:root {
+    /* Primary: blood/donation red. Secondary: accent blue. */
+    --color-primary: #D32F2F;
+    /* deep red */
+    --color-secondary: #1565C0;
+    /* strong blue */
+    --color-primary-contrast: #ffffff;
+}
+
+/* Keep daisyUI/theme usage if present; provide fallbacks. */
+@theme {
+    --color-primary: var(--color-primary);
+    --color-secondary: var(--color-secondary);
 }

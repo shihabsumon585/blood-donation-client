@@ -34,7 +34,7 @@ const Navbar = () => {
 
     return (
         <div>
-            <div className="navbar dark:shadow-lg dark:bg-gray-800">
+            <div className="navbar dark:shadow-lg dark:bg-gray-800 ">
                 <div className="navbar-start">
                     <div className="dropdown">
                         <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -99,7 +99,7 @@ const Navbar = () => {
                             </div>
                         </>
                     ) : (
-                        <a href="/login" className=" btn btn-success">
+                        <a href="/login" className=" btn btn-success bg-primary text-secondary">
                             Login
                         </a>
                     )}
