@@ -92,7 +92,7 @@ const Register = () => {
                 setError("");
                 toast("Register succesfully complete.")
 
-                axios.post("https://blood-donation-iota-lake.vercel.app/users", userData)
+                axios.post("http://localhost:5000/users", userData)
                     .then(res => console.log(res))
                     .catch(err => console.log(err))
 

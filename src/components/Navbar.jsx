@@ -4,6 +4,7 @@ import { AuthContext } from '../provider/AuthProvider';
 import "./Navbar.css"
 import logoImg from "../assets/logo.png"
 import { ChevronDown, Moon, Sun } from "lucide-react";
+import { useTheme } from 'next-themes';
 
 
 
@@ -11,7 +12,7 @@ import { ChevronDown, Moon, Sun } from "lucide-react";
 const Navbar = () => {
 
     const [dropdownOpen, setDropdownOpen] = useState(false);
-    const { user, logOut, mode, setMode } = useContext(AuthContext);
+    const { user, logOut, theme, setTheme } = useContext(AuthContext);
 
     const links = <>
         <li><NavLink to={"/"}>Home</NavLink></li>
@@ -27,14 +28,15 @@ const Navbar = () => {
         logOut();
     }
 
-    const isDarkMode = (mode) => {
-        setMode(mode)
+    const isDarkMode = (theme) => {
+        setTheme(theme)
     }
+    console.log(theme)
 
 
     return (
-        <div>
-            <div className="navbar dark:shadow-lg dark:bg-gray-800 ">
+        <div className='sticky top-0 z-50'>
+            <div className="navbar dark:bg-gray-800 bg-base-100 dark:text-white shadow-lg px-20">
                 <div className="navbar-start">
                     <div className="dropdown">
                         <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -46,7 +48,11 @@ const Navbar = () => {
                             {links}
                         </ul>
                     </div>
-                    <Link to={"/"}> <img src={logoImg} alt="" className='w-16 ml-4' /> </Link>
+                    <div className='ml-4'>
+                        <div className='bg-white rounded-full '>
+                            <Link to={"/"}> <img src={logoImg} alt="" className='w-16' /> </Link>
+                        </div>
+                    </div>
                 </div>
                 <div className="navbar-center hidden lg:flex">
                     <ul className="menu menu-horizontal px-1">
@@ -55,13 +61,19 @@ const Navbar = () => {
                 </div>
                 <div className="navbar-end">
 
-
                     {/* dark/light mode */}
-                    <div className='mr-4' onClick={() => isDarkMode(mode === "light" ? "dark" : "light")} >
+                    <div
+                        className={`fixed bottom-4 right-4 z-50 p-3 rounded-full shadow-lg cursor-pointer transition-colors duration-300 
+        ${theme === "light" ? "bg-gray-200 hover:bg-gray-300" : "bg-gray-700 hover:bg-gray-600"}`}
+                        onClick={() => isDarkMode(theme === "light" ? "dark" : "light")}
+                    >
                         {
-                            mode === "light" ? <Sun size={24} className="w-6 h-6 cursor-pointer" /> : <Moon size={24} className="w-6 h-6 cursor-pointer text-yellow-500" />
+                            theme === "light"
+                                ? <Sun size={24} className="text-yellow-500" />
+                                : <Moon size={24} className="text-yellow-400" />
                         }
                     </div>
+
 
 
                     {user ? (

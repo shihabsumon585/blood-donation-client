@@ -5,21 +5,21 @@ import Footer from "../components/Footer"
 
 const MainLayout = () => {
     return (
-        <div className='flex flex-col min-h-screen dark:bg-gray-900 dark:text-white'>
+        <div className='flex flex-col min-h-screen'>
             {/* header */}
-            <header  className='w-11/12 mx-auto'>
-                <nav>
+            <header  className='w-12/12 mx-auto sticky top-0 z-50'>
+                <nav >
                     <Navbar></Navbar>
                 </nav>
             </header>
 
             {/* Main body */}
-            <main  className='w-11/12 mx-auto grow'>
+            <main  className='w-12/12 mx-auto grow'>
                 <Outlet></Outlet>
             </main>
 
             {/* Footer */}
-            <footer  className='w-11/12 mx-auto'>
+            <footer  className='w-12/12 mx-auto'>
                 <Footer></Footer>
             </footer>
         </div>

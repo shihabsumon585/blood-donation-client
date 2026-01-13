@@ -15,3 +15,6 @@
     --color-primary: var(--color-primary);
     --color-secondary: var(--color-secondary);
 }
+
+/* Dark mode */
+@custom-variant dark (&:where(.dark, .dark *));

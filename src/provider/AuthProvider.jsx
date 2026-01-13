@@ -1,6 +1,7 @@
 import React, { createContext, useEffect, useState } from 'react';
 import { auth } from '../firebase/firebase.config';
 import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from 'firebase/auth';
+import { useTheme } from 'next-themes';
 
 export const AuthContext = createContext();
 const googleProvider = new GoogleAuthProvider;
@@ -10,8 +11,7 @@ const AuthProvider = ({children}) => {
     const [ user, setUser ] = useState(null);
     const [ loading, setLoading ] = useState(true);
     const [ roleLoading, setRoleLoading ] = useState(true);
-
-    const [mode, setMode] = useState("light");
+    const {theme, setTheme} = useTheme();
 
     const createUser = (email, password) => {
         setLoading(true);
@@ -31,7 +31,7 @@ const AuthProvider = ({children}) => {
 
     useEffect(()=> {
         if(!user) return;
-        fetch(`https://blood-donation-iota-lake.vercel.app/users/${user?.email}`)
+        fetch(`http://localhost:5000/users/${user?.email}`)
         .then(res => res.json())
         .then(data => {
             setRole(data.role);
@@ -57,7 +57,7 @@ const AuthProvider = ({children}) => {
     const signInWithGoogle = () => {
         return signInWithPopup(auth, googleProvider);
     }
-    console.log(mode)
+    
     
 
     const AuthValue = {
@@ -73,8 +73,8 @@ const AuthProvider = ({children}) => {
         role,
         userStatus,
         roleLoading,
-        mode,
-        setMode
+        theme,
+        setTheme
     }
     return (
         <AuthContext value={AuthValue}>
