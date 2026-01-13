@@ -18,9 +18,12 @@ const Navbar = () => {
         <li><NavLink to={"/"}>Home</NavLink></li>
         <li><NavLink to={"/all-request"}>All Request</NavLink></li>
         <li><NavLink to={"/search"}>Search</NavLink></li>
+        <li><NavLink to={"/about-us"}>About</NavLink></li>
+        <li><NavLink to={"/contact-us"}>Contact</NavLink></li>
+        <li><NavLink to={"/support"}>Support</NavLink></li>
         {user && <>
             <li><NavLink to={"/donate"}>Donate</NavLink></li>
-            {/* <li><NavLink to={""}></NavLink></li> */}
+            <li><NavLink to={"/privacy-policy"}>Privacy & Policy</NavLink></li>
         </>}
     </>
 
@@ -69,8 +72,8 @@ const Navbar = () => {
                     >
                         {
                             theme === "light"
-                                ? <Sun size={24} className="text-yellow-500" />
-                                : <Moon size={24} className="text-yellow-400" />
+                                ? <Moon size={24} className="text-yellow-500" />
+                                : <Sun size={24} className="text-yellow-400" />
                         }
                     </div>
 

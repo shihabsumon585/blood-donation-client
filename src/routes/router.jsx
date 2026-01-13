@@ -18,6 +18,10 @@ import DashboardHome from "../pages/DashboardHome/DashboardHome.jsx";
 import MyProfile from "../pages/MyProfile/MyProfile.jsx";
 import EditDonationRequest from "../pages/EditDonationRequest/EditDonationRequest.jsx";
 import AllDonationRequest from "../pages/AllDonationRequest/AllDonationRequest.jsx";
+import About from "../components/About.jsx";
+import Contact from "../components/Contact.jsx";
+import Support from "../components/Support.jsx";
+import PrivacyPolicy from "../components/PrivacyPolicy.jsx";
 
 
 const router = createBrowserRouter([
@@ -56,6 +60,22 @@ const router = createBrowserRouter([
             {
                 path: "/view-details/:id",
                 element: <PrivateRoutes><ViewDetails></ViewDetails></PrivateRoutes>
+            },
+            {
+                path: "/about-us",
+                element: <About></About>
+            },
+            {
+                path: "/contact-us",
+                element: <Contact></Contact>
+            },
+            {
+                path: "/support",
+                element: <Support></Support>
+            },
+            {
+                path: "/privacy-policy",
+                element: <PrivacyPolicy></PrivacyPolicy>
             }
         ]
     },

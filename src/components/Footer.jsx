@@ -8,7 +8,7 @@ const Footer = () => {
       <div className="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
         {/* Copyright Section */}
         <div className="text-center md:text-left mb-4 md:mb-0">
-          <p>&copy; 2025 Blood Donation App. All rights reserved.</p>
+          <p>&copy; 2026 Blood Donation App. All rights reserved.</p>
         </div>
 
         {/* Navigation Links */}

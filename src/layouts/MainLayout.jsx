@@ -7,19 +7,21 @@ const MainLayout = () => {
     return (
         <div className='flex flex-col min-h-screen'>
             {/* header */}
-            <header  className='w-12/12 mx-auto sticky top-0 z-50'>
+            <header className='w-12/12 mx-auto sticky top-0 z-50'>
                 <nav >
                     <Navbar></Navbar>
                 </nav>
             </header>
 
             {/* Main body */}
-            <main  className='w-12/12 mx-auto grow'>
-                <Outlet></Outlet>
+            <main className='w-12/12 mx-auto grow bg-gray-50 dark:bg-gray-900 transition-colors'>
+                <div className='w-11/12 mx-auto '>
+                    <Outlet></Outlet>
+                </div>
             </main>
 
             {/* Footer */}
-            <footer  className='w-12/12 mx-auto'>
+            <footer className='w-12/12 mx-auto'>
                 <Footer></Footer>
             </footer>
         </div>

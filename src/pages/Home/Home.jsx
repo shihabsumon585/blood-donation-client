@@ -13,9 +13,10 @@ import FAQ from '../../components/FAQ';
 
 const Home = () => {
     return (
-        <div>
+        <div className='*:py-25'>
             <title>Home</title>
             <Banner></Banner>
+            
             <Featured></Featured>
             <Services></Services>
             <Categories></Categories>
