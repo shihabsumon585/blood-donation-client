@@ -10,13 +10,17 @@ import Testimonials from '../../components/Testimonials';
 import Blogs from '../../components/Blogs';
 import Newsletter from '../../components/Newsletter';
 import FAQ from '../../components/FAQ';
+import Swipper from '../../components/Swipper';
 
 const Home = () => {
     return (
         <div className='*:py-25'>
             <title>Home</title>
-            <Banner></Banner>
-            
+
+            <Swipper></Swipper>
+
+            {/* <Banner></Banner> */}
+
             <Featured></Featured>
             <Services></Services>
             <Categories></Categories>
