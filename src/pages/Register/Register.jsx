@@ -1,175 +1,176 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 import toast, { Toaster } from 'react-hot-toast';
-import { FaEye } from 'react-icons/fa';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { AuthContext } from '../../provider/AuthProvider';
 import axios from 'axios';
-
-
 
 const Register = () => {
     const { createUser, setUser, updateUser } = useContext(AuthContext);
     const navigate = useNavigate();
+
     const [error, setError] = useState("");
-    const [show, setShow] = useState(true);
+    const [show, setShow] = useState(false);
     const [districts, setDistricts] = useState([]);
     const [upazilas, setUpazilas] = useState([]);
 
     useEffect(() => {
-        axios.get("/districts.json")
-            .then(res => {
-                setDistricts(res.data)
-            })
-            .catch(err => {
-                // console.log(err);
-            })
+        axios.get("/districts.json").then(res => setDistricts(res.data));
+        axios.get("/upazilas.json").then(res => setUpazilas(res.data));
+    }, []);
 
-        axios.get("/upazilas.json")
-            .then(res => {
-                setUpazilas(res.data)
-            })
-            .catch(err => {
-                // console.log(err);
-            })
-    }, [])
+    const inputStyle = `
+        w-full px-4 py-3 rounded-lg
+        bg-gray-50 dark:bg-gray-700
+        text-gray-900 dark:text-gray-100
+        border border-gray-300 dark:border-gray-600
+        placeholder-gray-400 dark:placeholder-gray-300
+        focus:outline-none focus:ring-2 focus:ring-red-500
+        transition
+    `;
 
     const handleCreateUser = async (e) => {
         e.preventDefault();
-        const name = e.target.name.value;
-        const email = e.target.email.value;
-        const password = e.target.password.value;
-        const confirm_password = e.target.confirm_password.value;
-        const blood_group = e.target.blood_group.value;
-        const district = e.target.district.value;
-        const upazila = e.target.upazila.value;
-        const photo = e.target.photo;
-        const file = photo.files[0];
+        const form = e.target;
 
+        const name = form.name.value;
+        const email = form.email.value;
+        const password = form.password.value;
+        const confirmPassword = form.confirm_password.value;
+        const blood_group = form.blood_group.value;
+        const district = form.district.value;
+        const upazila = form.upazila.value;
+        const file = form.photo.files[0];
 
-        const res = await axios.post(`https://api.imgbb.com/1/upload?key=483144411544367618f3fe1757ac61d3`, { image: file },
-            {
-                headers: {
-                    "Content-Type": "multipart/form-data"
-                }
+        if (!/[a-z]/.test(password)) return setError("Password must contain a lowercase letter");
+        if (!/[A-Z]/.test(password)) return setError("Password must contain an uppercase letter");
+        if (password.length < 6) return setError("Password must be at least 6 characters");
+        if (password !== confirmPassword) return setError("Password does not match");
+
+        try {
+            const imgRes = await axios.post(
+                `https://api.imgbb.com/1/upload?key=483144411544367618f3fe1757ac61d3`,
+                { image: file },
+                { headers: { "Content-Type": "multipart/form-data" } }
+            );
+
+            const photoURL = imgRes.data.data.display_url;
+
+            const result = await createUser(email, password);
+            await updateUser({ displayName: name, photoURL });
+            setUser({ ...result.user, displayName: name, photoURL });
+
+            await axios.post("http://localhost:5000/users", {
+                name,
+                email,
+                blood_group,
+                district,
+                upazila,
+                photoURL
             });
 
-        const mainPhotoUrl = res.data.data.display_url;
+            toast.success("Registration successful");
+            setError("");
+            navigate("/");
 
-        const userData = {
-            name,
-            email,
-            password,
-            mainPhotoUrl,
-            blood_group,
-            upazila,
-            district
-
+        } catch (err) {
+            setError("Registration failed. Try again.");
+            toast.error("Registration failed");
         }
+    };
 
-
-        const hasLowercase = /[a-z]/;
-        const hasUppercase = /[A-Z]/;
-        if (!hasLowercase.test(password)) {
-            return setError("Must have an Lowercase letter in the password")
-        }
-        if (!hasUppercase.test(password)) {
-            return setError("Must have an Uppercase letter in the password")
-        }
-        if (password.length < 6) {
-            return setError("Password must at least 6 character.")
-        }
-
-        if (password !== confirm_password) {
-            return alert("Password is not matching!. Try again...");
-        }
-        // console.log(userData);
-
-        createUser(email, password)
-            .then((result) => {
-                updateUser({ displayName: name, photoURL: mainPhotoUrl })
-                setUser({ ...result.user, displayName: name, photoURL: mainPhotoUrl });
-                navigate("/");
-                setError("");
-                toast("Register succesfully complete.")
-
-                axios.post("http://localhost:5000/users", userData)
-                    .then(res => console.log(res))
-                    .catch(err => console.log(err))
-
-            })
-            .catch(err => {
-                setError(err?.message);
-                toast(err?.message);
-            })
-    }
-    const handleShowPasswordToggling = () => {
-        setShow(!show);
-    }
     return (
-        <div className="card-body bg-white flex justify-center items-center w-fit mx-auto mt-4 p-10 rounded-xl">
-            <title>SignUp</title>
-            <Toaster></Toaster>
-            <h1 className='text-2xl font-bold mb-4'>SignUp your account</h1>
-            <form onSubmit={handleCreateUser}>
-                <fieldset className="fieldset *:w-80">
-                    {/* email */}
-                    <label className="label">Email</label>
-                    <input name='email' type="email" className="input" placeholder="Enter your email address" required />
-                    {/* Name */}
-                    <label className="label">Your Name</label>
-                    <input name='name' type="text" className="input" placeholder="Enter your name" />
-                    {/* Photo */}
-                    <label className="label">Upoload Your Image</label>
-                    <input name='photo' type="file" className="input" />
-                    {/* Select a the blood group */}
-                    <label className="label">Blood Group</label>
-                    <select name='blood_group' defaultValue="Choose the Blood Group" className="select">
+        <div className="min-h-screen flex items-center justify-center 
+                        bg-gray-100 dark:bg-gray-900 px-4 py-8">
+            <Toaster />
+
+            <div className="w-full max-w-lg bg-white dark:bg-gray-800 
+                            rounded-2xl shadow-xl p-8">
+
+                <h1 className="text-3xl font-bold text-center mb-6 
+                               text-gray-800 dark:text-gray-100">
+                    Create Your Account
+                </h1>
+
+                <form onSubmit={handleCreateUser} className="space-y-4">
+
+                    <input name="email" type="email" placeholder="Email address" required className={inputStyle} />
+
+                    <input name="name" type="text" placeholder="Full name" required className={inputStyle} />
+
+                    <input name="photo" type="file" required
+                        className={`file-input file-input-bordered w-full 
+                                   dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100`} />
+
+                    <select name="blood_group" required className={inputStyle}>
                         <option value="">Select Blood Group</option>
-                        <option value="A+">A+</option>
-                        <option value="A-">A-</option>
-                        <option value="B+">B+</option>
-                        <option value="B-">B-</option>
-                        <option value="AB+">AB+</option>
-                        <option value="AB-">AB-</option>
-                        <option value="O+">O+</option>
-                        <option value="O-">O-</option>
+                        {["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"].map(bg =>
+                            <option key={bg} value={bg}>{bg}</option>
+                        )}
                     </select>
-                    {/* Select a the district */}
-                    <label className="label">District</label>
-                    <select name='district' defaultValue="Choose the District" className="select">
-                        <option value="">Select your District</option>
-                        {
-                            districts.map(district => <option key={district.id} value={district.name}>{district.name}</option>)
-                        }
+
+                    <select name="district" required className={inputStyle}>
+                        <option value="">Select District</option>
+                        {districts.map(d => (
+                            <option key={d.id} value={d.name}>{d.name}</option>
+                        ))}
                     </select>
-                    {/* Select a the upazila */}
-                    <label className="label">Upazila</label>
-                    <select name='upazila' defaultValue="Choose the Upazila" className="select">
-                        <option value="">Select your Upazila</option>
-                        {
-                            upazilas.map(upazila => <option key={upazila.id} value={upazila.name}>{upazila.name}</option>)
-                        }
+
+                    <select name="upazila" required className={inputStyle}>
+                        <option value="">Select Upazila</option>
+                        {upazilas.map(u => (
+                            <option key={u.id} value={u.name}>{u.name}</option>
+                        ))}
                     </select>
-                    {/* password */}
-                    <label className="label">Password</label>
-                    <div className='relative'>
-                        <input name='password' type={show ? "password" : "text"} className="input" placeholder="Enter your password" required />
-                        <FaEye onClick={handleShowPasswordToggling} className='absolute top-4 right-4 w-5'></FaEye>
+
+                    <div className="relative">
+                        <input
+                            name="password"
+                            type={show ? "text" : "password"}
+                            placeholder="Password"
+                            required
+                            className={inputStyle}
+                        />
+                        <button
+                            type="button"
+                            onClick={() => setShow(!show)}
+                            className="absolute right-4 top-4 text-gray-500 dark:text-gray-300"
+                        >
+                            {show ? <FaEyeSlash /> : <FaEye />}
+                        </button>
                     </div>
-                    {/* confirm password */}
-                    <label className="label">Confirm Password</label>
-                    <div className='relative'>
-                        <input name='confirm_password' type={show ? "password" : "text"} className="input" placeholder="Enter your password" required />
-                        <FaEye onClick={handleShowPasswordToggling} className='absolute top-4 right-4 w-5'></FaEye>
-                    </div>
-                    <div>
-                        <p className='text-red-500 text-center font-semibold'>{error}</p>
-                        {error && <p className='text-red-500 text-center font-semibold'>Try again...</p>}
-                    </div>
-                    <button type='submit' className="btn bg-accent text-base-100 mt-4">SignUp</button>
-                </fieldset>
-            </form>
-            <p>Already have An Account ? <Link className='text-secondary' to={"/login"}>Login</Link> here.</p>
+
+                    <input
+                        name="confirm_password"
+                        type={show ? "text" : "password"}
+                        placeholder="Confirm password"
+                        required
+                        className={inputStyle}
+                    />
+
+                    {error && (
+                        <p className="text-red-500 text-center font-medium">
+                            {error}
+                        </p>
+                    )}
+
+                    <button
+                        type="submit"
+                        className="w-full py-3 rounded-full font-semibold
+                                   bg-gradient-to-r from-red-600 to-red-500
+                                   text-white hover:scale-105 transition"
+                    >
+                        Sign Up
+                    </button>
+                </form>
+
+                <p className="text-center mt-4 text-sm text-gray-700 dark:text-gray-300">
+                    Already have an account?{" "}
+                    <Link to="/login" className="text-red-500 font-semibold hover:underline">
+                        Login
+                    </Link>
+                </p>
+            </div>
         </div>
     );
 };

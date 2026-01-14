@@ -59,7 +59,7 @@ const router = createBrowserRouter([
             },
             {
                 path: "/view-details/:id",
-                element: <PrivateRoutes><ViewDetails></ViewDetails></PrivateRoutes>
+                element: <ViewDetails></ViewDetails>
             },
             {
                 path: "/about-us",

@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Star } from "lucide-react";
 import useAxiosSecure from "../../hooks/useAxiosSecure/useAxiosSecure";
 import { Link } from "react-router";
 import useAxios from "../../hooks/useAxios/useAxios";
+// import { AuthContext } from "../../provider/AuthProvider";
 
 
 
@@ -12,6 +13,7 @@ const AllUsers = ({ handleDelete }) => {
     const [confirmId, setConfirmId] = useState(null);
     const axiosSecure = useAxiosSecure();
     const axiosInstance = useAxios();
+    // const {user} = useContext(AuthContext);
 
 
     const filteredUsers = users.filter(user => {
@@ -82,7 +84,7 @@ const AllUsers = ({ handleDelete }) => {
                     {filteredUsers.map(user => (
                         <tr key={user.id} className="text-center border-t">
                             <td className="p-2 border">
-                                <img src={user.mainPhotoUrl || "/default-avatar.png"} alt="avatar" className="w-10 h-10 rounded-full mx-auto" />
+                                <img src={user?.photoURL} alt="avatar" className="w-10 h-10 rounded-full mx-auto" />
                             </td>
                             <td className="p-2 border">{user.email}</td>
                             <td className="p-2 border">{user.name}</td>
