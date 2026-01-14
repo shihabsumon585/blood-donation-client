@@ -24,6 +24,8 @@ const DashboardHome = () => {
             });
     }, [axiosInstance, user?.email]);
 
+    console.log(role)
+
     return (
         <div
             className="

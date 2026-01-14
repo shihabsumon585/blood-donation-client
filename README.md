@@ -4,8 +4,9 @@ PROJECT PURPOSE:
 PULSE is a blood donation platform that connects donors and people in need. Users can post blood requests, and donors can find and respond based on blood group and location to help save lives quickly.
 
 
-Live Website Link Client-side: https://blood-donation-bd-2592d.web.app/
-Live Website Link Server-side: http://localhost:5000/
+Live Website Link Client-side: https://blood-donation-bd-2592d.web.app
+Live Website Link Server-side: https://blood-donation-iota-lake.vercel.app/
+
 
 
 KEY FEATURES:

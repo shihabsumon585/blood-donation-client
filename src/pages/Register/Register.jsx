@@ -60,7 +60,7 @@ const Register = () => {
             await updateUser({ displayName: name, photoURL });
             setUser({ ...result.user, displayName: name, photoURL });
 
-            await axios.post("http://localhost:5000/users", {
+            await axios.post("https://blood-donation-iota-lake.vercel.app/users", {
                 name,
                 email,
                 blood_group,

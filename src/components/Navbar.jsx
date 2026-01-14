@@ -35,8 +35,24 @@ const Navbar = () => {
 
         {user && (
             <>
-                <li><NavLink to="/donate">Donate</NavLink></li>
-                <li><NavLink to="/privacy-policy">Privacy & Policy</NavLink></li>
+                <li><NavLink 
+                className={({ isActive }) =>
+                    `px-3 py-2 font-medium transition
+                         ${isActive
+                        ? "text-red-600 border-b-2 border-red-600"
+                        : "hover:text-red-500 dark:hover:text-red-400"}`
+                } 
+                to="/donate"
+                >Donate</NavLink></li>
+                <li><NavLink 
+                className={({ isActive }) =>
+                    `px-3 py-2 font-medium transition
+                         ${isActive
+                        ? "text-red-600 border-b-2 border-red-600"
+                        : "hover:text-red-500 dark:hover:text-red-400"}`
+                } 
+                to="/privacy-policy"
+                >Privacy & Policy</NavLink></li>
             </>
         )}
     </>;
