@@ -6,53 +6,53 @@ import DashbordHomeMyRequest from '../../components/DashbordHomeMyRequest';
 import Card3 from '../../components/Card3';
 
 const DashboardHome = () => {
-
     const axiosInstance = useAxios();
     const { user } = useContext(AuthContext);
     const [loginUser, setLogiUser] = useState([]);
     const [role, setRole] = useState("");
 
-
-
-
     useEffect(() => {
-        axiosInstance.get(`/users/${user?.email}`)
+        if (!user?.email) return;
+
+        axiosInstance.get(`/users/${user.email}`)
             .then(res => {
                 setLogiUser(res.data);
-                setRole(res.data.role)
+                setRole(res.data.role);
             })
             .catch(err => {
                 console.log(err);
-            })
-    }, [axiosInstance, user?.email])
-
-
-
+            });
+    }, [axiosInstance, user?.email]);
 
     return (
-        <div>
+        <div
+            className="
+                min-h-screen
+                bg-gray-50 dark:bg-gray-900
+                text-gray-900 dark:text-gray-100
+                transition-colors duration-300
+                px-2 sm:px-4 md:px-6
+                py-4
+            "
+        >
             <title>Dashboard</title>
+
             {/* Welcome Banner */}
-            <WelcomeBanner></WelcomeBanner>
+            <WelcomeBanner />
 
-            {/* last 3 donation request */}
-            {
-                role === "donar" && (
-                    <DashbordHomeMyRequest></DashbordHomeMyRequest>
-                )
-            }
+            {/* Last 3 donation request (Donor) */}
+            {role === "donar" && (
+                <div className="mt-6">
+                    <DashbordHomeMyRequest />
+                </div>
+            )}
 
-
-            {
-                (role === "admin" || role === "volunteer") && (
-                    <Card3></Card3>
-                )
-            }
-
-
-
-
-
+            {/* Admin / Volunteer Cards */}
+            {(role === "admin" || role === "volunteer") && (
+                <div className="mt-6">
+                    <Card3 />
+                </div>
+            )}
         </div>
     );
 };

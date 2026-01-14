@@ -8,14 +8,14 @@ const Login = () => {
     const { userLogin, setUser, signInWithGoogle } = useContext(AuthContext);
     const [error, setError] = useState("");
     const [show, setShow] = useState(false);
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
 
     const location = useLocation();
     const navigate = useNavigate();
 
     const handleLogIn = (e) => {
         e.preventDefault();
-        const email = e.target.email.value;
-        const password = e.target.password.value;
 
         if (!/[a-z]/.test(password)) {
             return setError("Password must contain a lowercase letter");
@@ -32,7 +32,7 @@ const Login = () => {
                 setUser(result.user);
                 setError("");
                 toast.success("Login successful");
-                navigate(location.state || "/");
+                navigate(location.state?.from || "/");
             })
             .catch(() => {
                 setError("Invalid email or password");
@@ -51,6 +51,20 @@ const Login = () => {
             });
     };
 
+    // Demo Users
+    const handleDemoLogin = (role) => {
+        if (role === "donor") {
+            setEmail("sohelrana@gmail.com");
+            setPassword("Test@2025");
+        } else if (role === "volunteer") {
+            setEmail("shoriful@islam.com");
+            setPassword("Test@2025");
+        } else if (role === "admin") {
+            setEmail("admin@gmail.com");
+            setPassword("Test@2025");
+        }
+    };
+
     return (
         <div className="min-h-screen flex items-center justify-center 
                         bg-gray-100 dark:bg-gray-900 px-4">
@@ -63,6 +77,28 @@ const Login = () => {
                                text-gray-800 dark:text-gray-100">
                     Login to Your Account
                 </h1>
+
+                {/* Demo User Buttons */}
+                <div className="flex justify-center gap-2 mb-4">
+                    <button
+                        onClick={() => handleDemoLogin("donor")}
+                        className="w-full py-1 rounded-full font-semibold bg-red-600 text-white hover:bg-red-500 transition text-sm"
+                    >
+                        Donor
+                    </button>
+                    <button
+                        onClick={() => handleDemoLogin("volunteer")}
+                        className="w-full py-1 rounded-full font-semibold bg-red-600 text-white hover:bg-red-500 transition text-sm"
+                    >
+                        Volunteer
+                    </button>
+                    <button
+                        onClick={() => handleDemoLogin("admin")}
+                        className="w-full py-1 rounded-full font-semibold bg-red-600 text-white hover:bg-red-500 transition text-sm"
+                    >
+                        Admin
+                    </button>
+                </div>
 
                 {/* Google Login */}
                 <button
@@ -87,17 +123,16 @@ const Login = () => {
 
                 {/* Login Form */}
                 <form onSubmit={handleLogIn} className="space-y-4">
-
-                    {/* Email */}
                     <div>
-                        <label className="block mb-1 text-sm font-medium 
-                                           text-gray-700 dark:text-gray-200">
+                        <label className="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-200">
                             Email
                         </label>
                         <input
                             name="email"
                             type="email"
                             required
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
                             className="w-full px-4 py-3 rounded-lg 
                                        border border-gray-300 dark:border-gray-600
                                        bg-gray-50 dark:bg-gray-700
@@ -108,10 +143,8 @@ const Login = () => {
                         />
                     </div>
 
-                    {/* Password */}
                     <div>
-                        <label className="block mb-1 text-sm font-medium 
-                                           text-gray-700 dark:text-gray-200">
+                        <label className="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-200">
                             Password
                         </label>
                         <div className="relative">
@@ -119,6 +152,8 @@ const Login = () => {
                                 name="password"
                                 type={show ? "text" : "password"}
                                 required
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
                                 className="w-full px-4 py-3 rounded-lg 
                                            border border-gray-300 dark:border-gray-600
                                            bg-gray-50 dark:bg-gray-700
@@ -137,19 +172,14 @@ const Login = () => {
                         </div>
                     </div>
 
-                    <div className="text-right">
-                        <Link
-                            to="/forgot-password"
-                            className="text-sm text-red-500 hover:underline"
-                        >
+                    {/* <div className="text-right">
+                        <Link to="/forgot-password" className="text-sm text-red-500 hover:underline">
                             Forgot password?
                         </Link>
-                    </div>
+                    </div> */}
 
                     {error && (
-                        <p className="text-red-500 text-center font-medium">
-                            {error}
-                        </p>
+                        <p className="text-red-500 text-center font-medium">{error}</p>
                     )}
 
                     <button
@@ -164,10 +194,7 @@ const Login = () => {
 
                 <p className="text-center text-sm text-gray-700 dark:text-gray-200">
                     Don’t have an account?{" "}
-                    <Link
-                        to="/register"
-                        className="text-red-500 font-semibold hover:underline"
-                    >
+                    <Link to="/register" className="text-red-500 font-semibold hover:underline">
                         Register
                     </Link>
                 </p>

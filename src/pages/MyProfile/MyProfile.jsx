@@ -22,44 +22,27 @@ const MyProfile = () => {
     const [loading, setLoading] = useState(false);
     const [fetchingProfile, setFetchingProfile] = useState(true);
 
-    // Fetch districts and upazilas
+    /* Load districts & upazilas */
     useEffect(() => {
-        axios.get("/districts.json")
-            .then(res => {
-                setDistricts(res.data);
-            })
-            .catch(err => {
-                // console.log('Error loading districts:', err);
-            });
-
-        axios.get("/upazilas.json")
-            .then(res => {
-                setUpazilas(res.data);
-            })
-            .catch(err => {
-                // console.log('Error loading upazilas:', err);
-            });
+        axios.get('/districts.json').then(res => setDistricts(res.data));
+        axios.get('/upazilas.json').then(res => setUpazilas(res.data));
     }, []);
 
-    // Fetch user profile from database
+    /* Load profile */
     useEffect(() => {
         const fetchProfile = async () => {
             if (!user?.email) return;
-            
             setFetchingProfile(true);
             try {
                 const res = await axiosInstance.get(`/users/${user.email}`);
                 setProfile(res.data);
-                
-                // Set profile data to state
+
                 setName(res.data.name || user.displayName || '');
                 setEmail(res.data.email || user.email || '');
                 setPhotoURL(res.data.photoURL || user.photoURL || '');
                 setDistrict(res.data.district || '');
                 setUpazila(res.data.upazila || '');
-            } catch (error) {
-                // console.log('Error fetching profile:', error);
-                // Fallback to user data from AuthContext
+            } catch {
                 setName(user.displayName || '');
                 setEmail(user.email || '');
                 setPhotoURL(user.photoURL || '');
@@ -67,42 +50,33 @@ const MyProfile = () => {
                 setFetchingProfile(false);
             }
         };
-
         fetchProfile();
     }, [user, axiosInstance]);
 
-    const handleEditToggle = () => {
-        setIsEditing(!isEditing);
-    };
+    const handleEditToggle = () => setIsEditing(!isEditing);
 
     const handleSave = async (e) => {
         e.preventDefault();
         setLoading(true);
-
         try {
-            // Update Firebase Auth profile
             if (updateUserProfile) {
                 await updateUserProfile(name, photoURL);
             }
 
-            // Update profile in database
             const updateData = {
                 email,
-                name: name,
-                photoURL: photoURL,
-                district: district,
-                upazila: upazila,
+                name,
+                photoURL,
+                district,
+                upazila,
             };
 
             const res = await axiosInstance.patch(`/users/update-profile`, updateData);
-            
-            // Update profile state
             setProfile(res.data);
-            
-            toast('Profile updated successfully!');
+            toast.success('Profile updated successfully!');
             setIsEditing(false);
-        } catch (error) {
-            alert('Failed to update profile. Please try again.');
+        } catch {
+            toast.error('Failed to update profile');
         } finally {
             setLoading(false);
         }
@@ -110,7 +84,7 @@ const MyProfile = () => {
 
     if (fetchingProfile) {
         return (
-            <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+            <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900">
                 <span className="loading loading-spinner loading-lg"></span>
             </div>
         );
@@ -119,31 +93,52 @@ const MyProfile = () => {
     return (
         <div>
             <title>My Profile</title>
-            <Toaster></Toaster>
-            <div className="min-h-screen bg-gray-100 flex items-center justify-center py-10 px-4">
-                <div className="bg-white shadow-2xl rounded-2xl p-8 md:p-12 w-full max-w-lg border border-gray-200">
+            <Toaster />
+
+            <div className="min-h-screen flex items-center justify-center py-10 px-4 bg-gray-100 dark:bg-gray-900 transition-colors">
+                <div className="
+                    w-full max-w-xl
+                    bg-white dark:bg-gray-800
+                    border border-gray-200 dark:border-gray-700
+                    rounded-2xl shadow-xl
+                    p-8 md:p-10
+                ">
+                    {/* Header */}
                     <div className="flex justify-between items-center mb-8">
-                        <h2 className="text-3xl font-bold text-gray-800">My Profile</h2>
+                        <h2 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-gray-100">
+                            My Profile
+                        </h2>
                         <button
                             onClick={handleEditToggle}
-                            className="btn btn-primary btn-sm md:btn-md text-white px-6"
+                            className="px-6 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium transition"
                         >
                             {isEditing ? 'Cancel Edit' : 'Edit Profile'}
                         </button>
                     </div>
 
+                    {/* Avatar */}
                     <div className="flex flex-col items-center mb-10">
-                        <div className="relative w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-primary shadow-lg mb-6">
+                        <div className="
+                            relative w-32 h-32 md:w-40 md:h-40
+                            rounded-full overflow-hidden
+                            border-4 border-blue-500
+                            shadow-lg
+                        ">
                             <img
                                 src={photoURL || 'https://via.placeholder.com/150'}
-                                alt="User Profile"
+                                alt="Profile"
                                 className="w-full h-full object-cover"
                             />
+
                             {isEditing && (
-                                <label htmlFor="photo-upload" className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center text-white text-sm cursor-pointer hover:bg-opacity-70 transition-all duration-300">
+                                <label className="
+                                    absolute inset-0 bg-black/50
+                                    flex items-center justify-center
+                                    text-white text-sm cursor-pointer
+                                    hover:bg-black/60 transition
+                                ">
                                     Change Photo
                                     <input
-                                        id="photo-upload"
                                         type="file"
                                         accept="image/*"
                                         className="hidden"
@@ -161,108 +156,111 @@ const MyProfile = () => {
                                 </label>
                             )}
                         </div>
+
                         {isEditing && (
                             <input
                                 type="text"
                                 placeholder="Or paste photo URL"
                                 value={photoURL}
                                 onChange={(e) => setPhotoURL(e.target.value)}
-                                className="input input-bordered w-full max-w-xs mb-4 text-center"
+                                className="
+                                    mt-4 input input-bordered w-full max-w-xs
+                                    text-center
+                                    bg-white dark:bg-gray-700
+                                    dark:text-gray-100
+                                "
                             />
                         )}
                     </div>
 
-                    <form onSubmit={handleSave}>
-                        <div className="grid grid-cols-1 gap-6">
-                            {/* Name */}
-                            <div className="form-control">
-                                <label className="label">
-                                    <span className="label-text font-semibold text-gray-700">Full Name</span>
-                                </label>
-                                {isEditing ? (
-                                    <input
-                                        type="text"
-                                        value={name}
-                                        onChange={(e) => setName(e.target.value)}
-                                        className="input input-bordered w-full"
-                                        required
-                                    />
-                                ) : (
-                                    <p className="text-lg font-medium text-gray-900 bg-gray-50 p-3 rounded-md border border-gray-200">
-                                        {name || 'Not provided'}
-                                    </p>
-                                )}
-                            </div>
-
-                            {/* Email */}
-                            <div className="form-control">
-                                <label className="label">
-                                    <span className="label-text font-semibold text-gray-700">Email Address</span>
-                                </label>
-                                <p className="text-lg font-medium text-gray-900 bg-gray-50 p-3 rounded-md border border-gray-200">
-                                    {email || 'Not provided'}
+                    {/* Form */}
+                    <form onSubmit={handleSave} className="space-y-6">
+                        {/* Name */}
+                        <div>
+                            <label className="block mb-1 font-semibold text-gray-700 dark:text-gray-300">
+                                Full Name
+                            </label>
+                            {isEditing ? (
+                                <input
+                                    type="text"
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                    className="input input-bordered w-full bg-white dark:bg-gray-700 dark:text-gray-100"
+                                    required
+                                />
+                            ) : (
+                                <p className="p-3 rounded-md bg-gray-50 dark:bg-gray-700 border dark:border-gray-600 text-gray-900 dark:text-gray-100">
+                                    {name || 'Not provided'}
                                 </p>
-                            </div>
+                            )}
+                        </div>
 
-                            {/* District */}
-                            <div className="form-control">
-                                <label className="label">
-                                    <span className="label-text font-semibold text-gray-700">District</span>
-                                </label>
-                                {isEditing ? (
-                                    <select 
-                                        name='district' 
-                                        value={district}
-                                        onChange={(e) => setDistrict(e.target.value)}
-                                        className="select select-bordered w-full"
-                                    >
-                                        <option value="">Select your District</option>
-                                        {districts.map(dist => (
-                                            <option key={dist.id} value={dist.name}>
-                                                {dist.name}
-                                            </option>
-                                        ))}
-                                    </select>
-                                ) : (
-                                    <p className="text-lg font-medium text-gray-900 bg-gray-50 p-3 rounded-md border border-gray-200">
-                                        {district || 'Not provided'}
-                                    </p>
-                                )}
-                            </div>
+                        {/* Email */}
+                        <div>
+                            <label className="block mb-1 font-semibold text-gray-700 dark:text-gray-300">
+                                Email Address
+                            </label>
+                            <p className="p-3 rounded-md bg-gray-50 dark:bg-gray-700 border dark:border-gray-600 text-gray-900 dark:text-gray-100">
+                                {email || 'Not provided'}
+                            </p>
+                        </div>
 
-                            {/* Upazila */}
-                            <div className="form-control">
-                                <label className="label">
-                                    <span className="label-text font-semibold text-gray-700">Upazila</span>
-                                </label>
-                                {isEditing ? (
-                                    <select 
-                                        name='upazila' 
-                                        value={upazila}
-                                        onChange={(e) => setUpazila(e.target.value)}
-                                        className="select select-bordered w-full"
-                                    >
-                                        <option value="">Select your Upazila</option>
-                                        {upazilas.map(upaz => (
-                                            <option key={upaz.id} value={upaz.name}>
-                                                {upaz.name}
-                                            </option>
-                                        ))}
-                                    </select>
-                                ) : (
-                                    <p className="text-lg font-medium text-gray-900 bg-gray-50 p-3 rounded-md border border-gray-200">
-                                        {upazila || 'Not provided'}
-                                    </p>
-                                )}
-                            </div>
+                        {/* District */}
+                        <div>
+                            <label className="block mb-1 font-semibold text-gray-700 dark:text-gray-300">
+                                District
+                            </label>
+                            {isEditing ? (
+                                <select
+                                    value={district}
+                                    onChange={(e) => setDistrict(e.target.value)}
+                                    className="select select-bordered w-full bg-white dark:bg-gray-700 dark:text-gray-100"
+                                >
+                                    <option value="">Select your District</option>
+                                    {districts.map(dist => (
+                                        <option key={dist.id} value={dist.name}>
+                                            {dist.name}
+                                        </option>
+                                    ))}
+                                </select>
+                            ) : (
+                                <p className="p-3 rounded-md bg-gray-50 dark:bg-gray-700 border dark:border-gray-600 text-gray-900 dark:text-gray-100">
+                                    {district || 'Not provided'}
+                                </p>
+                            )}
+                        </div>
+
+                        {/* Upazila */}
+                        <div>
+                            <label className="block mb-1 font-semibold text-gray-700 dark:text-gray-300">
+                                Upazila
+                            </label>
+                            {isEditing ? (
+                                <select
+                                    value={upazila}
+                                    onChange={(e) => setUpazila(e.target.value)}
+                                    className="select select-bordered w-full bg-white dark:bg-gray-700 dark:text-gray-100"
+                                >
+                                    <option value="">Select your Upazila</option>
+                                    {upazilas.map(upaz => (
+                                        <option key={upaz.id} value={upaz.name}>
+                                            {upaz.name}
+                                        </option>
+                                    ))}
+                                </select>
+                            ) : (
+                                <p className="p-3 rounded-md bg-gray-50 dark:bg-gray-700 border dark:border-gray-600 text-gray-900 dark:text-gray-100">
+                                    {upazila || 'Not provided'}
+                                </p>
+                            )}
                         </div>
 
                         {isEditing && (
-                            <div className="mt-8 text-center">
+                            <div className="pt-6 text-center">
                                 <button
                                     type="submit"
-                                    className="btn btn-success text-white px-10"
                                     disabled={loading}
+                                    className="px-10 py-3 rounded-xl bg-green-600 hover:bg-green-700 text-white font-medium transition"
                                 >
                                     {loading ? (
                                         <span className="loading loading-spinner"></span>
