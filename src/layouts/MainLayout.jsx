@@ -14,9 +14,9 @@ const MainLayout = () => {
             </header>
 
             {/* Main body */}
-            <main className='w-12/12 mx-auto grow bg-gray-50 dark:bg-gray-900 transition-colors'>
-                <div className='w-11/12 mx-auto '>
-                    <Outlet></Outlet>
+            <main className='w-full mx-auto grow bg-slate-50 dark:bg-slate-950 transition-colors'>
+                <div className='w-11/12 mx-auto py-6 lg:py-10'>
+                    <Outlet />
                 </div>
             </main>
 

@@ -14,23 +14,22 @@ import Swipper from '../../components/Swipper';
 
 const Home = () => {
     return (
-        <div className='*:py-25'>
+        <div className='space-y-20'>
             <title>Home</title>
 
-            <Swipper></Swipper>
+            <Banner />
+            <Swipper />
 
-            {/* <Banner></Banner> */}
-
-            <Featured></Featured>
-            <Services></Services>
-            <Categories></Categories>
-            <Highlights></Highlights>
-            <Statistics></Statistics>
-            <Testimonials></Testimonials>
-            <Blogs></Blogs>
-            <Newsletter></Newsletter>
-            <FAQ></FAQ>
-            <ContactUs></ContactUs>
+            <Featured />
+            <Services />
+            <Categories />
+            <Highlights />
+            <Statistics />
+            <Testimonials />
+            <Blogs />
+            <Newsletter />
+            <FAQ />
+            <ContactUs />
         </div>
     );
 };

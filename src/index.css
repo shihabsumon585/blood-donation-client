@@ -16,5 +16,17 @@
     --color-secondary: var(--color-secondary);
 }
 
+body {
+    @apply min-h-screen bg-slate-50 text-slate-900 antialiased selection:bg-red-200 selection:text-slate-900;
+}
+
+.dark body {
+    @apply bg-slate-950 text-slate-100 selection:bg-red-800 selection:text-slate-100;
+}
+
+[class*="shadow-"] {
+    @apply shadow-sm;
+}
+
 /* Dark mode */
 @custom-variant dark (&:where(.dark, .dark *));
